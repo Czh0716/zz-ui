@@ -1,6 +1,6 @@
 <template>
     <div class="hello">
-        <z-btn></z-btn>
+        <z-btn color="pink"></z-btn>
         <h1>{{ msg }}</h1>
         <p>
             For a guide and recipes on how to configure / customize this project,
@@ -96,9 +96,6 @@ export default class HelloWorld extends mixins(colorable) {
 
     hello() {
         console.log('hah')
-    }
-    mounted() {
-        this.read()
     }
 }
 </script>
