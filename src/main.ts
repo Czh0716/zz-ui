@@ -4,6 +4,8 @@ import App from "./App.vue";
 import ZUI from '@/components';
 Vue.use(ZUI)
 
+import '@/styles/main.sass'
+
 Vue.config.productionTip = false;
 
 new Vue({

@@ -1,0 +1,38 @@
+// =跟mixin相等 
+=background-color($color-val)
+    background-color: $color-val !important
+    border-color: $color-val !important
+
+=text-color($color-val)
+    color: $color-val !important
+    caret-color: $color-val !important
+
+@each $color-name,$color-val in $plain-colors
+    .#{$color-name}
+        +background-color($color-val)
+
+    .text--#{$color-name}
+        +text-color($color-val)   
+
+@each $color-name, $color-val in $colors
+    .#{$color-name}
+        +background-color($color-val)
+        @each $level in $lightLevels
+            &.lighten-#{$level}
+                +background-color(scale-color($color-val,$lightness: 16% * $level))
+            &.darken-#{$level}
+                +background-color(scale-color($color-val,$lightness: -12% * $level))
+    
+    .text--#{$color-name}
+        +text-color($color-val) 
+        @each $level in $lightLevels
+            &.lighten-#{$level}
+                +text-color(scale-color($color-val,$lightness: 16% * $level))
+            &.darken-#{$level}
+                +text-color(scale-color($color-val,$lightness: -12% * $level))
+
+
+    
+
+
+     

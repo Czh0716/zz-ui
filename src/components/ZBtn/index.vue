@@ -1,5 +1,5 @@
 <template>
-    <div class="z-btn">yes</div>
+    <div class="z-btn"></div>
 </template>
 
 <script>
@@ -9,12 +9,24 @@ import colorable from '@/mixins/colorable'
 
 @Component
 export default class ZBtn extends mixins(colorable) {
-    mounted() {
-        console.log(this.color)
-    }
+    tests = [
+        'red',
+        'pink',
+        'purple',
+        'blue',
+        'indigo',
+        'cyan',
+        'teal',
+        'green',
+        'yellow',
+        'orange',
+        'brown',
+        'grey'
+    ]
 }
 </script>
 
 <style lang="sass">
     .z-btn
+
 </style>
