@@ -1,5 +1,7 @@
 <template>
-    <div class="z-btn"></div>
+    <button class="z-btn">
+        <slot></slot>
+    </button>
 </template>
 
 <script>
@@ -8,25 +10,10 @@ import Component, { mixins } from 'vue-class-component'
 import colorable from '@/mixins/colorable'
 
 @Component
-export default class ZBtn extends mixins(colorable) {
-    tests = [
-        'red',
-        'pink',
-        'purple',
-        'blue',
-        'indigo',
-        'cyan',
-        'teal',
-        'green',
-        'yellow',
-        'orange',
-        'brown',
-        'grey'
-    ]
-}
+export default class ZBtn extends mixins(colorable) {}
 </script>
 
-<style lang="sass">
-    .z-btn
-
+<style lang="scss">
+.z-btn {
+}
 </style>
