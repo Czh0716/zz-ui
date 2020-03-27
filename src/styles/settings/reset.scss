@@ -15,10 +15,34 @@ html {
 }
 
 button,
+[type='button'],
+[type='reset'],
+[type='submit'],
+[role='button'] {
+    cursor: pointer;
+}
+
+button,
 input,
 select,
 textarea {
     background-color: transparent;
     border-style: none;
     color: inherit;
+}
+
+button::-moz-focus-inner,
+[type='button']::-moz-focus-inner,
+[type='reset']::-moz-focus-inner,
+[type='submit']::-moz-focus-inner {
+    border-style: 0;
+    padding: 0;
+}
+
+/* Replace focus style removed in the border reset above */
+[type='button']::-moz-focus-inner,
+[type='reset']::-moz-focus-inner,
+[type='submit']::-moz-focus-inner {
+    outline: 0;
+    border: 0;
 }

@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <img alt="Vue logo" src="./assets/logo.png" />
-        <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+        <z-btn :loading="loading" @click="change" color="pink" rounded>HELLO WORLD</z-btn>
     </div>
 </template>
 
@@ -16,6 +16,11 @@ import HelloWorld from './components/HelloWorld.vue'
 })
 export default class App extends Vue {
     @Provide() test = this
+    loading: boolean = false
+    change() {
+        console.log('hah')
+        this.loading = !this.loading
+    }
     haha() {}
 }
 </script>

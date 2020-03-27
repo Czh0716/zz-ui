@@ -11,7 +11,7 @@
     .#{$color-name}
         +background-color($color-val)
 
-    .text--#{$color-name}
+    .#{$color-name}--text
         +text-color($color-val)   
 
 @each $color-name, $color-val in $colors
@@ -23,7 +23,7 @@
             &.darken-#{$level}
                 +background-color(scale-color($color-val,$lightness: -12% * $level))
     
-    .text--#{$color-name}
+    .#{$color-name}--text
         +text-color($color-val) 
         @each $level in $lightLevels
             &.lighten-#{$level}
