@@ -46,7 +46,7 @@ function rippleShow(e: MouseEvent | TouchEvent): void {
     ripple.dataset.activated = String(performance.now())
     ripple.style.width = ripple.style.height = `${2 * radius}px`
     transform(ripple, `translate(${x - radius}px,${y - radius}px) scale(0)`)
-    opacity(ripple, 0.25)
+    opacity(ripple, 0.4)
 
     setTimeout(() => {
         transform(ripple, `translate(${-centerX}px,${-centerY}px) scale(1)`)
