@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <img alt="Vue logo" src="./assets/logo.png" />
-        <z-btn :loading="loading" @click="change" color="pink" text class="white--text">HELLO WORLD</z-btn>
+        <z-btn v-ripple :loading="loading" color="pink" class="white--text">HELLO WORLD</z-btn>
     </div>
 </template>
 
