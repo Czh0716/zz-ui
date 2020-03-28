@@ -11,6 +11,7 @@ export default class ZBtn extends mixins(colorable) {
     @Prop(Boolean) loading!: boolean
     @Prop(Boolean) outlined!: boolean
     @Prop(Boolean) rounded!: boolean
+    @Prop(Boolean) text!: boolean
 
     click(e: MouseEvent): void {
         this.$emit('click', e)
@@ -40,7 +41,8 @@ export default class ZBtn extends mixins(colorable) {
         return {
             'z-btn': true,
             'z-btn--outlined': this.outlined,
-            'z-btn--rounded': this.rounded
+            'z-btn--rounded': this.rounded,
+            'z-btn--text': this.text
         }
     }
 
@@ -49,7 +51,7 @@ export default class ZBtn extends mixins(colorable) {
     }
 
     get isFlat(): boolean {
-        return this.outlined
+        return this.outlined || this.text
     }
 
     render(h: Function): VNode {
@@ -80,10 +82,14 @@ export default class ZBtn extends mixins(colorable) {
     outline: none;
     box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
 
-    &.z-btn--outlined {
+    &.z-btn--outlined,
+    &.z-btn--text {
         background-color: transparent !important;
-        border: 1px solid currentColor;
         box-shadow: none;
+    }
+
+    &.z-btn--outlined {
+        border: 1px solid currentColor;
     }
 
     &.z-btn--rounded {

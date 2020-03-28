@@ -1,3 +1,4 @@
+$material-light: () !default;
 $material-light: map-deep-merge(
     (
         'text': (
@@ -5,5 +6,6 @@ $material-light: map-deep-merge(
             'primary': rgba(map-get($plain-colors, 'black'), 0.87),
             'secondary': rgba(map-get($plain-colors, 'black'), 0.6)
         )
-    )
+    ),
+    $material-light
 );
