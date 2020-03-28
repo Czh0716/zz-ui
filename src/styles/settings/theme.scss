@@ -1,0 +1,9 @@
+$material-light: map-deep-merge(
+    (
+        'text': (
+            'theme': map-get($plain-colors, 'white'),
+            'primary': rgba(map-get($plain-colors, 'black'), 0.87),
+            'secondary': rgba(map-get($plain-colors, 'black'), 0.6)
+        )
+    )
+);

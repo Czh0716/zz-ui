@@ -1,7 +1,13 @@
 <template>
     <div id="app">
         <img alt="Vue logo" src="./assets/logo.png" />
-        <z-btn :loading="loading" @click="change" color="pink" rounded>HELLO WORLD</z-btn>
+        <z-btn
+            :loading="loading"
+            @click="change"
+            color="pink"
+            rounded
+            class="white--text"
+        >HELLO WORLD</z-btn>
     </div>
 </template>
 
