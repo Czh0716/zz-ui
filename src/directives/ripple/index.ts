@@ -53,7 +53,7 @@ function rippleShow(e: MouseEvent | TouchEvent): void {
     }, 0)
 }
 
-function rippleHidden(e: MouseEvent) {
+function rippleHidden(e: MouseEvent | TouchEvent): void {
     const el: HTMLElement = e.currentTarget as HTMLElement
     const ripples: NodeList = el.querySelectorAll('.z-ripple')
     const ripple: HTMLElement = ripples[ripples.length - 1] as HTMLElement

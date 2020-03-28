@@ -63,7 +63,8 @@ export default class ZBtn extends mixins(colorable) {
                 style: this.styles,
                 on: {
                     click: this.click
-                }
+                },
+                directives: [{ name: 'ripple' }]
             }),
             [this.loading ? this.genLoading() : this.genContent()]
         )
@@ -72,6 +73,8 @@ export default class ZBtn extends mixins(colorable) {
 </script>
 
 <style lang="scss">
+@import '@/styles/main.sass';
+
 .z-btn {
     position: relative;
     background-color: #f5f5f5;
@@ -81,7 +84,11 @@ export default class ZBtn extends mixins(colorable) {
     border-radius: 4px;
     font-weight: 500;
     outline: none;
-    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
+    @include elevation(4);
+    @include elevationTransition;
+    &:active {
+        @include elevation(8);
+    }
 }
 
 .z-btn--outlined,
