@@ -1,10 +1,11 @@
 <template>
     <div id="app">
         <img alt="Vue logo" src="./assets/logo.png" />
-        <z-btn :loading="loading" color="pink white--text" size="mini">HELLO WORLD</z-btn>
-        <z-btn :loading="loading" color="pink white--text" size="small">HELLO WORLD</z-btn>
-        <z-btn :loading="loading" color="pink white--text">HELLO WORLD</z-btn>
-        <z-btn :loading="loading" color="pink white--text" size="large">HELLO</z-btn>
+        <z-btn :loading="loading" color="yellow white--text">HELLO WORLD</z-btn>
+
+        <div class="wrap">
+            <div class="content"></div>
+        </div>
     </div>
 </template>
 
@@ -29,11 +30,20 @@ export default class App extends Vue {
 
 <style lang="scss">
 #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
     text-align: center;
-    color: #2c3e50;
     margin-top: 60px;
+    .wrap {
+        width: 100px;
+        height: 100px;
+        background-color: green;
+        border: 1px solid transparent;
+        .content {
+            width: 100px;
+            height: 50px;
+            background-color: inherit;
+            margin-top: -4px;
+            filter: blur(1px);
+        }
+    }
 }
 </style>

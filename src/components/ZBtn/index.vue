@@ -12,30 +12,49 @@ export default class ZBtn extends mixins(colorable) {
     @Prop(Boolean) outlined!: boolean
     @Prop(Boolean) rounded!: boolean
     @Prop(Boolean) text!: boolean
+    @Prop(Boolean) threeD!: boolean
+    @Prop(Boolean) disabled!: boolean
     @Prop({ type: String, default: 'normal' }) size!: string
 
     click(e: MouseEvent): void {
         this.$emit('click', e)
     }
 
-    genContent(): VNode {
-        return this.$createElement(
+    genContent(): any[] {
+        const normalContent: VNode = this.$createElement(
             'span',
             {
                 staticClass: 'z-btn__content'
             },
             this.$slots.default
         )
+
+        const threeDContent: VNode[] = [
+            this.$createElement(
+                'span',
+                this.setTextColor({
+                    staticClass: 'z-btn--threeD__top',
+                    directives: [{ name: 'ripple' }]
+                }),
+                this.$slots.default
+            ),
+            this.$createElement('span', { staticClass: 'z-btn--threeD__middle' }),
+            this.$createElement('span', { staticClass: 'z-btn--threeD__bottom' }),
+            normalContent
+        ]
+        return this.threeD ? threeDContent : [normalContent]
     }
 
-    genLoading(): VNode {
-        return this.$createElement(
-            'span',
-            {
-                staticClass: 'z-btn__loading'
-            },
-            'loading...'
-        )
+    genLoading(): VNode[] {
+        return [
+            this.$createElement(
+                'span',
+                {
+                    staticClass: 'z-btn__loading'
+                },
+                'loading...'
+            )
+        ]
     }
 
     get classes(): object {
@@ -44,7 +63,9 @@ export default class ZBtn extends mixins(colorable) {
             'z-btn--outlined': this.outlined,
             'z-btn--rounded': this.rounded,
             'z-btn--text': this.text,
-            [`z-btn--${this.size}`]: true
+            [`z-btn--${this.size}`]: true,
+            'z-btn--disabled': this.disabled,
+            'z-btn--threeD': this.threeD
         }
     }
 
@@ -58,6 +79,8 @@ export default class ZBtn extends mixins(colorable) {
 
     render(h: Function): VNode {
         const setColor = this.isFlat ? this.setTextColor : this.setBackgroundColor
+        const directives = []
+        if (!this.threeD) directives.push({ name: 'ripple' })
         return h(
             this.tag,
             setColor({
@@ -66,9 +89,9 @@ export default class ZBtn extends mixins(colorable) {
                 on: {
                     click: this.click
                 },
-                directives: [{ name: 'ripple' }]
+                directives
             }),
-            [this.loading ? this.genLoading() : this.genContent()]
+            [...(this.loading ? this.genLoading() : this.genContent())]
         )
     }
 }
@@ -84,6 +107,7 @@ export default class ZBtn extends mixins(colorable) {
     height: 36px;
     padding: 0 12px;
     border-radius: 4px;
+    letter-spacing: 1.4px;
     font-weight: 500;
     font-size: 14px;
     outline: none;
@@ -106,6 +130,12 @@ export default class ZBtn extends mixins(colorable) {
         &:active {
             @include elevation(8);
         }
+    }
+
+    &.z-btn--disabled {
+        pointer-events: none;
+        background-color: rgba(0, 0, 0, 0.12) !important;
+        color: rgba(0, 0, 0, 0.26) !important;
     }
 }
 
@@ -145,5 +175,71 @@ export default class ZBtn extends mixins(colorable) {
 
 .z-btn--rounded {
     border-radius: 20px;
+}
+
+.z-btn--threeD {
+    box-shadow: none !important;
+    border-radius: 6px !important;
+
+    .z-btn--threeD__top,
+    .z-btn--threeD__middle {
+        border: 2px solid rgb(147, 66, 66);
+    }
+    .z-btn--threeD__top,
+    .z-btn--threeD__middle,
+    .z-btn--threeD__bottom {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        border-radius: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.4s;
+    }
+    .z-btn--threeD__top {
+        transform: translateY(-8px);
+        background-color: #fff;
+        z-index: 1;
+        &::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: currentColor;
+            opacity: 0.08;
+            transition: 0.3s;
+        }
+    }
+    .z-btn--threeD__bottom {
+        z-index: -1;
+        transform: translateY(8px);
+        background-color: inherit;
+        opacity: 0.15;
+    }
+    .z-btn__content {
+        visibility: hidden;
+    }
+
+    &:hover {
+        .z-btn--threeD__top {
+            transform: translateY(-6px);
+            &::before {
+                opacity: 0.3;
+            }
+        }
+        .z-btn--threeD__bottom {
+            transform: translateY(6px);
+        }
+    }
+
+    &:active {
+        .z-btn--threeD__top,
+        .z-btn--threeD__bottom {
+            transform: translateY(0);
+        }
+    }
 }
 </style>
