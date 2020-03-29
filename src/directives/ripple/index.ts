@@ -37,6 +37,7 @@ function rippleShow(e: MouseEvent | TouchEvent): void {
     const { x, y, radius, centerX, centerY } = calculate(e)
     const container: HTMLElement = document.createElement('span')
     const ripple: HTMLElement = document.createElement('span')
+
     el.appendChild(container)
     container.appendChild(ripple)
 
@@ -74,6 +75,9 @@ function rippleHidden(e: MouseEvent | TouchEvent): void {
 
 export default {
     inserted(el: HTMLElement) {
+        const { position } = getComputedStyle(el)
+        if (position === 'static') el.style.position = 'relative'
+
         el.addEventListener('mousedown', rippleShow)
         el.addEventListener('mouseup', rippleHidden)
         el.addEventListener('mouseleave', rippleHidden)
