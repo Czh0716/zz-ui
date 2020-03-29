@@ -12,6 +12,7 @@ export default class ZBtn extends mixins(colorable) {
     @Prop(Boolean) outlined!: boolean
     @Prop(Boolean) rounded!: boolean
     @Prop(Boolean) text!: boolean
+    @Prop({ type: String, default: 'normal' }) size!: string
 
     click(e: MouseEvent): void {
         this.$emit('click', e)
@@ -42,7 +43,8 @@ export default class ZBtn extends mixins(colorable) {
             'z-btn': true,
             'z-btn--outlined': this.outlined,
             'z-btn--rounded': this.rounded,
-            'z-btn--text': this.text
+            'z-btn--text': this.text,
+            [`z-btn--${this.size}`]: true
         }
     }
 
@@ -83,6 +85,7 @@ export default class ZBtn extends mixins(colorable) {
     padding: 0 12px;
     border-radius: 4px;
     font-weight: 500;
+    font-size: 14px;
     outline: none;
     @include elevation(4);
 
@@ -104,6 +107,27 @@ export default class ZBtn extends mixins(colorable) {
             @include elevation(8);
         }
     }
+}
+
+.z-btn--large {
+    font-size: 16px;
+    height: 44px;
+    min-width: 96px;
+    padding: 0 18px;
+}
+
+.z-btn--small,
+.z-btn--mini {
+    font-size: 12px;
+}
+
+.z-btn--small {
+    height: 28px;
+}
+
+.z-btn--mini {
+    height: 24px;
+    padding: 0 8px;
 }
 
 .z-btn--outlined,

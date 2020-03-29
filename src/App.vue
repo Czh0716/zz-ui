@@ -1,7 +1,10 @@
 <template>
     <div id="app">
         <img alt="Vue logo" src="./assets/logo.png" />
-        <z-btn :loading="loading" text color="pink">HELLO WORLD</z-btn>
+        <z-btn :loading="loading" color="pink white--text" size="mini">HELLO WORLD</z-btn>
+        <z-btn :loading="loading" color="pink white--text" size="small">HELLO WORLD</z-btn>
+        <z-btn :loading="loading" color="pink white--text">HELLO WORLD</z-btn>
+        <z-btn :loading="loading" color="pink white--text" size="large">HELLO</z-btn>
     </div>
 </template>
 
@@ -18,7 +21,6 @@ export default class App extends Vue {
     @Provide() test = this
     loading: boolean = false
     change() {
-        console.log('hah')
         this.loading = !this.loading
     }
     haha() {}
