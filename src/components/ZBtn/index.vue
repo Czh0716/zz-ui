@@ -85,9 +85,24 @@ export default class ZBtn extends mixins(colorable) {
     font-weight: 500;
     outline: none;
     @include elevation(4);
-    @include elevationTransition;
-    &:active {
-        @include elevation(8);
+
+    &:before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        border-radius: inherit;
+        background-color: currentColor;
+        opacity: 0;
+        transition: 0.3s;
+    }
+    &:not(.z-btn--text):not(.z-btn--outlined) {
+        @include elevationTransition;
+        &:active {
+            @include elevation(8);
+        }
     }
 }
 
@@ -95,6 +110,9 @@ export default class ZBtn extends mixins(colorable) {
 .z-btn--text {
     background-color: transparent !important;
     box-shadow: none;
+    &:hover:before {
+        opacity: 0.1;
+    }
 }
 
 .z-btn--outlined {

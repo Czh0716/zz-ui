@@ -46,7 +46,7 @@ function rippleShow(e: MouseEvent | TouchEvent): void {
     ripple.dataset.activated = String(performance.now())
     ripple.style.width = ripple.style.height = `${2 * radius}px`
     transform(ripple, `translate(${x - radius}px,${y - radius}px) scale(0)`)
-    opacity(ripple, 0.4)
+    opacity(ripple, 0.3)
 
     setTimeout(() => {
         transform(ripple, `translate(${-centerX}px,${-centerY}px) scale(1)`)
@@ -56,6 +56,9 @@ function rippleShow(e: MouseEvent | TouchEvent): void {
 function rippleHidden(e: MouseEvent | TouchEvent): void {
     const el: HTMLElement = e.currentTarget as HTMLElement
     const ripples: NodeList = el.querySelectorAll('.z-ripple')
+
+    if (ripples.length === 0) return
+
     const ripple: HTMLElement = ripples[ripples.length - 1] as HTMLElement
     const diff: number = performance.now() - Number(ripple.dataset.activated)
     // 300 => 为动画的持续时间， diff为时间差，如不足300则等待动画结束后再remove
@@ -63,7 +66,8 @@ function rippleHidden(e: MouseEvent | TouchEvent): void {
     setTimeout(() => {
         opacity(ripple, 0)
         setTimeout(() => {
-            el.removeChild(ripple.parentNode as Node)
+            const parent: Node = ripple.parentNode as Node
+            el.contains(parent) && el.removeChild(parent)
         }, 300)
     }, delay)
 }
@@ -72,6 +76,7 @@ export default {
     inserted(el: HTMLElement) {
         el.addEventListener('mousedown', rippleShow)
         el.addEventListener('mouseup', rippleHidden)
+        el.addEventListener('mouseleave', rippleHidden)
 
         el.addEventListener('touchstart', rippleShow)
         el.addEventListener('touchend', rippleHidden)
