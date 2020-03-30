@@ -4,9 +4,10 @@ import Component, { mixins } from 'vue-class-component'
 import { VNode } from 'vue/types/vnode'
 
 import colorable from '@/mixins/colorable'
+import sizeable from '@/mixins/sizeable'
 
 @Component
-export default class ZBtn extends mixins(colorable) {
+export default class ZBtn extends mixins(colorable, sizeable) {
     @Prop({ type: String, default: 'button' }) tag!: string
     @Prop(Boolean) loading!: boolean
     @Prop(Boolean) outlined!: boolean
@@ -14,7 +15,6 @@ export default class ZBtn extends mixins(colorable) {
     @Prop(Boolean) text!: boolean
     @Prop(Boolean) threeD!: boolean
     @Prop(Boolean) disabled!: boolean
-    @Prop({ type: String, default: 'normal' }) size!: string
 
     click(e: MouseEvent): void {
         this.$emit('click', e)
@@ -63,9 +63,9 @@ export default class ZBtn extends mixins(colorable) {
             'z-btn--outlined': this.outlined,
             'z-btn--rounded': this.rounded,
             'z-btn--text': this.text,
-            [`z-btn--${this.size}`]: true,
             'z-btn--disabled': this.disabled,
-            'z-btn--threeD': this.threeD
+            'z-btn--threeD': this.threeD,
+            ...this.sizeableClasses
         }
     }
 
@@ -137,27 +137,27 @@ export default class ZBtn extends mixins(colorable) {
         background-color: rgba(0, 0, 0, 0.12) !important;
         color: rgba(0, 0, 0, 0.26) !important;
     }
-}
 
-.z-btn--large {
-    font-size: 16px;
-    height: 44px;
-    min-width: 96px;
-    padding: 0 18px;
-}
+    &.z-size--large {
+        font-size: 16px;
+        height: 44px;
+        min-width: 96px;
+        padding: 0 18px;
+    }
 
-.z-btn--small,
-.z-btn--mini {
-    font-size: 12px;
-}
+    &.z-size--small,
+    &.z-size--mini {
+        font-size: 12px;
+    }
 
-.z-btn--small {
-    height: 28px;
-}
+    &.z-size--small {
+        height: 28px;
+    }
 
-.z-btn--mini {
-    height: 24px;
-    padding: 0 8px;
+    &.z-size--mini {
+        height: 24px;
+        padding: 0 8px;
+    }
 }
 
 .z-btn--outlined,
