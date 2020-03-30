@@ -1,9 +1,8 @@
 <template>
     <div id="app">
-        <img alt="Vue logo" src="./assets/logo.png" />
-        <z-btn :loading="test" color="purple white--text">HELLO WORLD</z-btn>
-
         <z-progress-linear color="blue" loading></z-progress-linear>
+        <img alt="Vue logo" src="./assets/logo.png" />
+        <z-btn color="purple white--text">HELLO WORLD</z-btn>
     </div>
 </template>
 
@@ -29,7 +28,6 @@ export default class App extends Vue {
 <style lang="scss">
 #app {
     text-align: center;
-    margin-top: 60px;
     .wrap {
         width: 100px;
         height: 100px;

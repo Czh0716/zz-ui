@@ -11,6 +11,7 @@ import measurable from '@/mixins/measurable'
 export default class zProgressLinear extends mixins(colorable, measurable) {
     @Prop({ type: [Number, String], default: 100 }) value!: number | string
     @Prop(Boolean) loading!: boolean
+    @Prop(Boolean) rounded!: boolean
 
     genContent(): VNode[] {
         const background: VNode = this.$createElement(
@@ -50,6 +51,7 @@ export default class zProgressLinear extends mixins(colorable, measurable) {
     get classes(): object {
         return {
             'z-progress-linear': true,
+            'z-progress-linear--rounded': true,
             'z-progress-linear__loading': this.loading
         }
     }
@@ -74,6 +76,7 @@ export default class zProgressLinear extends mixins(colorable, measurable) {
 <style lang="scss">
 .z-progress-linear {
     position: relative;
+    overflow: hidden;
 }
 .z-progress-linear__background {
     width: 100%;
@@ -88,7 +91,11 @@ export default class zProgressLinear extends mixins(colorable, measurable) {
     z-index: 1;
     left: 0;
     top: 0;
-    overflow: hidden;
+    border-radius: inherit;
+}
+
+.z-progress-linear--rounded {
+    border-radius: 4px;
 }
 
 .z-progress-linear__loading .z-progress-linear__current {
@@ -104,6 +111,7 @@ export default class zProgressLinear extends mixins(colorable, measurable) {
         transform: translate(-100%);
         animation: loading 4s infinite;
         transform-origin: right center;
+        border-radius: inherit;
     }
 
     .long {
