@@ -1,11 +1,9 @@
 <template>
     <div id="app">
         <img alt="Vue logo" src="./assets/logo.png" />
-        <z-btn :loading="loading" color="purple white--text">HELLO WORLD</z-btn>
+        <z-btn :loading="test" color="purple white--text">HELLO WORLD</z-btn>
 
-        <div class="wrap haha">
-            <div class="content"></div>
-        </div>
+        <z-progress-linear color="blue" loading></z-progress-linear>
     </div>
 </template>
 
@@ -19,7 +17,7 @@ import HelloWorld from './components/HelloWorld.vue'
     }
 })
 export default class App extends Vue {
-    @Provide() test = this
+    @Provide() test = 13
     loading: boolean = false
     change() {
         this.loading = !this.loading

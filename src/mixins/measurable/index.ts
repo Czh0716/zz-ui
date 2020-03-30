@@ -12,7 +12,7 @@ export default class measurable extends Vue {
     @Prop([String, Number]) maxHeight!: string | number
 
     get measurableStyles(): object {
-        const styles: Record<string, string> = {}
+        const styles: Record<string | number, string> = {}
 
         const width = convertToUnit(this.width)
         const height = convertToUnit(this.height)
