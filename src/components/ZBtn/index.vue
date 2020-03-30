@@ -5,9 +5,10 @@ import { VNode } from 'vue/types/vnode'
 
 import colorable from '@/mixins/colorable'
 import sizeable from '@/mixins/sizeable'
+import measurable from '@/mixins/measurable'
 
 @Component
-export default class ZBtn extends mixins(colorable, sizeable) {
+export default class ZBtn extends mixins(colorable, sizeable, measurable) {
     @Prop({ type: String, default: 'button' }) tag!: string
     @Prop(Boolean) loading!: boolean
     @Prop(Boolean) outlined!: boolean
@@ -70,7 +71,9 @@ export default class ZBtn extends mixins(colorable, sizeable) {
     }
 
     get styles(): object {
-        return {}
+        return {
+            ...this.measurableStyles
+        }
     }
 
     get isFlat(): boolean {
