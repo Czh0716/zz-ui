@@ -3,7 +3,7 @@
         <img alt="Vue logo" src="./assets/logo.png" />
         <z-btn :loading="loading" color="yellow white--text">HELLO WORLD</z-btn>
 
-        <div class="wrap">
+        <div class="wrap haha">
             <div class="content"></div>
         </div>
     </div>
