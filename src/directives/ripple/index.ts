@@ -46,7 +46,7 @@ function rippleShow(e: MouseEvent | TouchEvent): void {
     // 记录点击时的时间点，用于判断点击结束时，进入动画是否也结束再remove元素
     ripple.dataset.activated = String(performance.now())
     ripple.style.width = ripple.style.height = `${2 * radius}px`
-    transform(ripple, `translate(${x - radius}px,${y - radius}px) scale(0)`)
+    transform(ripple, `translate(${x - radius}px,${y - radius}px) scale(0.3)`)
     opacity(ripple, 0.3)
 
     setTimeout(() => {

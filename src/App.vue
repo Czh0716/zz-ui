@@ -3,6 +3,7 @@
         <z-progress-linear color="blue" loading></z-progress-linear>
         <img alt="Vue logo" src="./assets/logo.png" />
         <z-btn color="purple white--text">HELLO WORLD</z-btn>
+        <div class="test" v-ripple></div>
     </div>
 </template>
 
@@ -28,18 +29,10 @@ export default class App extends Vue {
 <style lang="scss">
 #app {
     text-align: center;
-    .wrap {
-        width: 100px;
-        height: 100px;
-        background-color: green;
-        border: 1px solid transparent;
-        .content {
-            width: 100px;
-            height: 50px;
-            background-color: inherit;
-            margin-top: -4px;
-            filter: blur(1px);
-        }
+    .test {
+        width: 600px;
+        height: 160px;
+        background-color: pink;
     }
 }
 </style>
