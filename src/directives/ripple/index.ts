@@ -1,5 +1,9 @@
 import './ripple.sass'
 
+interface rippleOptions {
+    color?: string
+}
+
 function transform(el: HTMLElement, value: string) {
     el.style['transform'] = value
     el.style['webkitTransform'] = value
@@ -31,27 +35,38 @@ function calculate(e: MouseEvent | TouchEvent) {
     return { x, y, centerX, centerY, radius }
 }
 
-function rippleShow(e: MouseEvent | TouchEvent): void {
-    const el: HTMLElement = e.currentTarget as HTMLElement
+function rippleShow(
+    rippleOptionsOrEvent: rippleOptions | MouseEvent | TouchEvent = {}
+): EventListenerOrEventListenerObject | void {
+    function realFunc(e: MouseEvent | TouchEvent): void {
+        const el: HTMLElement = e.currentTarget as HTMLElement
 
-    const { x, y, radius, centerX, centerY } = calculate(e)
-    const container: HTMLElement = document.createElement('span')
-    const ripple: HTMLElement = document.createElement('span')
+        const { x, y, radius, centerX, centerY } = calculate(e)
+        const container: HTMLElement = document.createElement('span')
+        const ripple: HTMLElement = document.createElement('span')
+        const options: rippleOptions = rippleOptionsOrEvent as rippleOptions
+        el.appendChild(container)
+        container.appendChild(ripple)
 
-    el.appendChild(container)
-    container.appendChild(ripple)
+        container.className = 'z-ripple__container'
+        ripple.className = 'z-ripple'
+        if (options.color) ripple.style.backgroundColor = options.color
+        // 记录点击时的时间点，用于判断点击结束时，进入动画是否也结束再remove元素
+        ripple.dataset.activated = String(performance.now())
+        ripple.style.width = ripple.style.height = `${2 * radius}px`
+        transform(
+            ripple,
+            `translate(${x - radius}px,${y - radius}px) scale(0.3)`
+        )
+        opacity(ripple, 0.3)
 
-    container.className = 'z-ripple__container'
-    ripple.className = 'z-ripple'
-    // 记录点击时的时间点，用于判断点击结束时，进入动画是否也结束再remove元素
-    ripple.dataset.activated = String(performance.now())
-    ripple.style.width = ripple.style.height = `${2 * radius}px`
-    transform(ripple, `translate(${x - radius}px,${y - radius}px) scale(0.3)`)
-    opacity(ripple, 0.3)
-
-    setTimeout(() => {
-        transform(ripple, `translate(${-centerX}px,${-centerY}px) scale(1)`)
-    }, 0)
+        setTimeout(() => {
+            transform(ripple, `translate(${-centerX}px,${-centerY}px) scale(1)`)
+        }, 0)
+    }
+    if ((<MouseEvent | TouchEvent>rippleOptionsOrEvent).target)
+        realFunc(rippleOptionsOrEvent as MouseEvent | TouchEvent)
+    else return realFunc as EventListenerOrEventListenerObject
 }
 
 function rippleHidden(e: MouseEvent | TouchEvent): void {
@@ -73,16 +88,46 @@ function rippleHidden(e: MouseEvent | TouchEvent): void {
     }, delay)
 }
 
+function rippleHoverHidden(e: MouseEvent | TouchEvent): void {
+    const el: HTMLElement = e.currentTarget as HTMLElement
+    const ripples: NodeList = el.querySelectorAll('.z-ripple')
+    const ripple: HTMLElement = ripples[0] as HTMLElement
+
+    const { x, y, radius } = calculate(e)
+    transform(ripple, `translate(${x - radius}px,${y - radius}px) scale(0)`)
+    setTimeout(() => {
+        const parent: Node = ripple.parentNode as Node
+        el.contains(parent) && el.removeChild(parent)
+    }, 300)
+}
+
 export default {
-    inserted(el: HTMLElement) {
+    inserted(
+        el: HTMLElement,
+        {
+            arg,
+            value = {}
+        }: { arg: string; value: { color?: string | undefined } | undefined }
+    ) {
         const { position } = getComputedStyle(el)
         if (position === 'static') el.style.position = 'relative'
+        const options: rippleOptions = {
+            color: value.color
+        }
 
-        el.addEventListener('mousedown', rippleShow)
-        el.addEventListener('mouseup', rippleHidden)
-        el.addEventListener('mouseleave', rippleHidden)
+        if (arg !== 'hover') {
+            el.addEventListener('mousedown', rippleShow)
+            el.addEventListener('mouseup', rippleHidden)
+            el.addEventListener('mouseleave', rippleHidden)
 
-        el.addEventListener('touchstart', rippleShow)
-        el.addEventListener('touchend', rippleHidden)
+            el.addEventListener('touchstart', rippleShow)
+            el.addEventListener('touchend', rippleHidden)
+        } else {
+            el.addEventListener(
+                'mouseenter',
+                rippleShow(options) as EventListenerOrEventListenerObject
+            )
+            el.addEventListener('mouseleave', rippleHoverHidden)
+        }
     }
 }

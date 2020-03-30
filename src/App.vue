@@ -3,7 +3,7 @@
         <z-progress-linear color="blue" loading></z-progress-linear>
         <img alt="Vue logo" src="./assets/logo.png" />
         <z-btn color="purple white--text">HELLO WORLD</z-btn>
-        <div class="test" v-ripple></div>
+        <div class="test" v-ripple:hover="{color: 'yellow'}"></div>
     </div>
 </template>
 
