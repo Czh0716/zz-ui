@@ -100,7 +100,6 @@ export default class zProgressLinear extends mixins(colorable, measurable) {
 
 .z-progress-linear__loading .z-progress-linear__current {
     background-color: transparent !important;
-    // animation: loading 2s infinite;
     .long,
     .short {
         width: 100%;
@@ -109,14 +108,14 @@ export default class zProgressLinear extends mixins(colorable, measurable) {
         left: 0;
         top: 0;
         transform: translate(-100%);
-        animation: loading 4s infinite;
+        animation: loading 3s infinite;
         transform-origin: right center;
         border-radius: inherit;
     }
 
     .long {
         width: 130%;
-        animation-delay: 2s;
+        animation-delay: 1.5s;
     }
 }
 
