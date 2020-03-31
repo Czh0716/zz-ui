@@ -4,19 +4,13 @@
         <img alt="Vue logo" src="./assets/logo.png" />
         <z-btn color="purple white--text">HELLO WORLD</z-btn>
         <div class="test" v-ripple="{color: 'yellow'}"></div>
-        <test></test>
     </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Provide } from 'vue-property-decorator'
-import Test from './components/Test.vue'
 
-@Component({
-    components: {
-        Test
-    }
-})
+@Component
 export default class App extends Vue {
     @Provide() test = 13
     loading: boolean = false

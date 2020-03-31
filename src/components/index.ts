@@ -1,10 +1,18 @@
-import ZBtn from './ZBtn/index.vue'
-import ZProgressLinear from './ZProgressLinear/index.vue'
-const components = [ZBtn, ZProgressLinear]
+const componentsFiles: any = require.context('./', true, /\.vue$/)
+const components = componentsFiles
+    .keys()
+    .reduce((acc: any, componentPath: any) => {
+        const componentName = componentPath.replace(
+            /^\.\/(.*)\/index.vue$/,
+            '$1'
+        )
+        acc[componentName] = componentsFiles(componentPath).default
+        return acc
+    }, {})
 
 const install = function(Vue: any) {
-    components.forEach(component => {
-        Vue.component(component.name, component)
+    Object.keys(components).forEach((component: any) => {
+        Vue.component(component, components[component])
     })
 }
 
