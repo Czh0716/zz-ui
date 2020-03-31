@@ -104,10 +104,7 @@ function rippleHoverHidden(e: MouseEvent | TouchEvent): void {
 export default {
     inserted(
         el: HTMLElement,
-        {
-            arg,
-            value = {}
-        }: { arg: string; value: { color?: string | undefined } | undefined }
+        { arg, value = {} }: { arg: string; value: rippleOptions | undefined }
     ) {
         const { position } = getComputedStyle(el)
         if (position === 'static') el.style.position = 'relative'
