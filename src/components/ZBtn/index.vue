@@ -41,7 +41,11 @@ export default class ZBtn extends mixins(colorable, sizeable, measurable) {
     }
 
     genLoading(): VNode[] {
-        return [<z-progress-circular loading></z-progress-circular>]
+        return [
+            <div class="circular">
+                <z-progress-circular loading></z-progress-circular>
+            </div>
+        ]
     }
 
     get classes(): object {
@@ -52,6 +56,7 @@ export default class ZBtn extends mixins(colorable, sizeable, measurable) {
             'z-btn--text': this.text,
             'z-btn--disabled': this.disabled,
             'z-btn--threeD': this.threeD,
+            'z-btn--loading': this.loading,
             ...this.sizeableClasses
         }
     }
@@ -79,7 +84,12 @@ export default class ZBtn extends mixins(colorable, sizeable, measurable) {
         const setColor = this.isFlat ? this.setTextColor : this.setBackgroundColor
         if (!this.threeD) data.directives!.push({ name: 'ripple' })
 
-        return <Tag {...setColor(data)}>{this.loading ? this.genLoading() : this.genContent()}</Tag>
+        return (
+            <Tag {...setColor(data)}>
+                {this.genContent()}
+                {this.loading && this.genLoading()}
+            </Tag>
+        )
     }
 }
 </script>
@@ -144,6 +154,22 @@ export default class ZBtn extends mixins(colorable, sizeable, measurable) {
     &.z-size--mini {
         height: 24px;
         padding: 0 8px;
+    }
+
+    &.z-btn--loading {
+        box-shadow: none;
+        background-color: transparent !important;
+        pointer-events: none;
+        .circular {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+            border-radius: inherit;
+            background-color: #eee;
+        }
     }
 }
 
