@@ -37,7 +37,7 @@ function calculate(e: MouseEvent | TouchEvent) {
 
 function rippleShow(
     rippleOptionsOrEvent: rippleOptions | MouseEvent | TouchEvent = {}
-): EventListenerOrEventListenerObject | void {
+): any {
     function realFunc(e: MouseEvent | TouchEvent): void {
         const el: HTMLElement = e.currentTarget as HTMLElement
 
@@ -66,7 +66,7 @@ function rippleShow(
     }
     if ((<MouseEvent | TouchEvent>rippleOptionsOrEvent).target)
         realFunc(rippleOptionsOrEvent as MouseEvent | TouchEvent)
-    else return realFunc as EventListenerOrEventListenerObject
+    else return realFunc
 }
 
 function rippleHidden(e: MouseEvent | TouchEvent): void {
@@ -123,10 +123,7 @@ export default {
             el.addEventListener('touchstart', rippleShow)
             el.addEventListener('touchend', rippleHidden)
         } else {
-            el.addEventListener(
-                'mouseenter',
-                rippleShow(options) as EventListenerOrEventListenerObject
-            )
+            el.addEventListener('mouseenter', rippleShow(options))
             el.addEventListener('mouseleave', rippleHoverHidden)
         }
     }
