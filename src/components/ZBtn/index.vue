@@ -1,7 +1,7 @@
 <script lang="tsx">
 import { Prop, Vue } from 'vue-property-decorator'
 import Component, { mixins } from 'vue-class-component'
-import { VNode } from 'vue/types/vnode'
+import { VNode, VNodeData } from 'vue/types/vnode'
 
 import colorable from '@/mixins/colorable'
 import sizeable from '@/mixins/sizeable'
@@ -41,7 +41,7 @@ export default class ZBtn extends mixins(colorable, sizeable, measurable) {
     }
 
     genLoading(): VNode[] {
-        return [<div class="z-btn__loading">loading...</div>]
+        return [<z-progress-circular loading></z-progress-circular>]
     }
 
     get classes(): object {
@@ -67,25 +67,19 @@ export default class ZBtn extends mixins(colorable, sizeable, measurable) {
     }
 
     render(h: Function): VNode {
-        const setColor = this.isFlat ? this.setTextColor : this.setBackgroundColor
-        const directives = []
-        if (!this.threeD) directives.push({ name: 'ripple' })
+        const data: VNodeData = {
+            class: this.classes,
+            style: this.styles,
+            on: {
+                click: this.click
+            },
+            directives: []
+        }
         const Tag = this.tag
+        const setColor = this.isFlat ? this.setTextColor : this.setBackgroundColor
+        if (!this.threeD) data.directives!.push({ name: 'ripple' })
 
-        return (
-            <Tag
-                {...setColor({
-                    class: this.classes,
-                    style: this.styles,
-                    on: {
-                        click: this.click
-                    },
-                    directives
-                })}
-            >
-                {this.loading ? this.genLoading() : this.genContent()}
-            </Tag>
-        )
+        return <Tag {...setColor(data)}>{this.loading ? this.genLoading() : this.genContent()}</Tag>
     }
 }
 </script>

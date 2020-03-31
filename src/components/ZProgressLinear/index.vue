@@ -1,7 +1,7 @@
 <script lang="tsx">
 import { Vue, Prop } from 'vue-property-decorator'
 import Component, { mixins } from 'vue-class-component'
-import { VNode } from 'vue/types/vnode'
+import { VNode, VNodeData } from 'vue/types/vnode'
 
 import colorable from '@/mixins/colorable'
 import sizeable from '@/mixins/sizeable'
@@ -45,7 +45,7 @@ export default class zProgressLinear extends mixins(colorable, measurable) {
     }
 
     render(): VNode {
-        const data = {
+        const data: VNodeData = {
             class: this.classes,
             style: this.styles
         }
