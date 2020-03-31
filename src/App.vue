@@ -2,7 +2,7 @@
     <div id="app">
         <z-progress-linear color="blue" loading></z-progress-linear>
         <img alt="Vue logo" src="./assets/logo.png" />
-        <z-btn threeD color="purple white--text">HELLO WORLD</z-btn>
+        <z-btn color="purple white--text">HELLO WORLD</z-btn>
         <div class="test" v-ripple="{color: 'yellow'}"></div>
         <test></test>
     </div>

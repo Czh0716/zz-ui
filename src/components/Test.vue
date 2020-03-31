@@ -16,7 +16,7 @@ export default class Test extends Vue {
 
     render() {
         const Tag = 'div'
-        return <Tag {...this.attrs}>asd</Tag>
+        return <Tag {...this.attrs}>tqwwtt</Tag>
     }
 }
 </script>
