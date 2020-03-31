@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="tsx">
 import { Vue, Prop } from 'vue-property-decorator'
 import Component, { mixins } from 'vue-class-component'
 import { VNode } from 'vue/types/vnode'
@@ -14,35 +14,16 @@ export default class zProgressLinear extends mixins(colorable, measurable) {
     @Prop(Boolean) rounded!: boolean
 
     genContent(): VNode[] {
-        const background: VNode = this.$createElement(
-            'div',
-            this.setBackgroundColor({
-                staticClass: 'z-progress-linear__background'
-            })
-        )
+        const data = this.setBackgroundColor()
+        const background: VNode = <div class="z-progress-linear__background" {...data}></div>
         const loadingChildren: VNode[] = [
-            this.$createElement(
-                'div',
-                this.setBackgroundColor({
-                    staticClass: 'long'
-                })
-            ),
-            this.$createElement(
-                'div',
-                this.setBackgroundColor({
-                    staticClass: 'short'
-                })
-            )
+            <div class="long" {...data}></div>,
+            <div class="short" {...data}></div>
         ]
-        const current: VNode = this.$createElement(
-            'div',
-            this.setBackgroundColor({
-                staticClass: 'z-progress-linear__current',
-                style: {
-                    width: `${this.value}%`
-                }
-            }),
-            this.loading ? loadingChildren : []
+        const current: VNode = (
+            <div class="z-progress-linear__current" style={{ width: `${this.value}%` }}>
+                {this.loading && loadingChildren}
+            </div>
         )
 
         return [background, current]
@@ -63,12 +44,13 @@ export default class zProgressLinear extends mixins(colorable, measurable) {
         }
     }
 
-    render(h: Function): VNode {
+    render(): VNode {
         const data = {
             class: this.classes,
             style: this.styles
         }
-        return h('div', data, [...this.genContent()])
+
+        return <div {...data}>{...this.genContent()}</div>
     }
 }
 </script>

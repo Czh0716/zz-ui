@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="tsx">
 import { Prop, Vue } from 'vue-property-decorator'
 import Component, { mixins } from 'vue-class-component'
 import { VNode } from 'vue/types/vnode'
@@ -21,41 +21,27 @@ export default class ZBtn extends mixins(colorable, sizeable, measurable) {
         this.$emit('click', e)
     }
 
-    genContent(): any[] {
-        const normalContent: VNode = this.$createElement(
-            'span',
-            {
-                staticClass: 'z-btn__content'
-            },
-            this.$slots.default
-        )
+    genContent(): VNode[] {
+        const normalContent: VNode[] = [<span class="z-btn__content">{this.$slots.default}</span>]
 
         const threeDContent: VNode[] = [
-            this.$createElement(
-                'span',
-                this.setTextColor({
+            <span
+                {...this.setTextColor({
                     staticClass: 'z-btn--threeD__top',
                     directives: [{ name: 'ripple' }]
-                }),
-                this.$slots.default
-            ),
-            this.$createElement('span', { staticClass: 'z-btn--threeD__middle' }),
-            this.$createElement('span', { staticClass: 'z-btn--threeD__bottom' }),
-            normalContent
+                })}
+            >
+                {this.$slots.default}
+            </span>,
+            <span class="z-btn--threeD__middle"></span>,
+            <span class="z-btn--threeD__bottom"></span>,
+            ...normalContent
         ]
-        return this.threeD ? threeDContent : [normalContent]
+        return this.threeD ? threeDContent : normalContent
     }
 
     genLoading(): VNode[] {
-        return [
-            this.$createElement(
-                'span',
-                {
-                    staticClass: 'z-btn__loading'
-                },
-                'loading...'
-            )
-        ]
+        return [<div class="z-btn__loading">loading...</div>]
     }
 
     get classes(): object {
@@ -84,17 +70,21 @@ export default class ZBtn extends mixins(colorable, sizeable, measurable) {
         const setColor = this.isFlat ? this.setTextColor : this.setBackgroundColor
         const directives = []
         if (!this.threeD) directives.push({ name: 'ripple' })
-        return h(
-            this.tag,
-            setColor({
-                class: this.classes,
-                style: this.styles,
-                on: {
-                    click: this.click
-                },
-                directives
-            }),
-            [...(this.loading ? this.genLoading() : this.genContent())]
+        const Tag = this.tag
+
+        return (
+            <Tag
+                {...setColor({
+                    class: this.classes,
+                    style: this.styles,
+                    on: {
+                        click: this.click
+                    },
+                    directives
+                })}
+            >
+                {this.loading ? this.genLoading() : this.genContent()}
+            </Tag>
         )
     }
 }

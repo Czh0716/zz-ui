@@ -8,7 +8,7 @@ function isCssColor(color: string): boolean {
 export default class colorable extends Vue {
     @Prop(String) color!: string
 
-    setBackgroundColor(data: VNodeData): VNodeData {
+    setBackgroundColor(data: VNodeData = {}): VNodeData {
         const color: string = this.color
         if (isCssColor(color)) {
             data.style = {
@@ -25,7 +25,7 @@ export default class colorable extends Vue {
         return data
     }
 
-    setTextColor(data: VNodeData): VNodeData {
+    setTextColor(data: VNodeData = {}): VNodeData {
         const color: string = this.color
         if (isCssColor(color)) {
             data.style = {

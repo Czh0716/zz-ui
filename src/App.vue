@@ -2,18 +2,19 @@
     <div id="app">
         <z-progress-linear color="blue" loading></z-progress-linear>
         <img alt="Vue logo" src="./assets/logo.png" />
-        <z-btn color="purple white--text">HELLO WORLD</z-btn>
+        <z-btn threeD color="purple white--text">HELLO WORLD</z-btn>
         <div class="test" v-ripple="{color: 'yellow'}"></div>
+        <test></test>
     </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Provide } from 'vue-property-decorator'
-import HelloWorld from './components/HelloWorld.vue'
+import Test from './components/Test.vue'
 
 @Component({
     components: {
-        HelloWorld
+        Test
     }
 })
 export default class App extends Vue {
