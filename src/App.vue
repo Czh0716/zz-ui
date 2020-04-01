@@ -4,7 +4,7 @@
         <img alt="Vue logo" src="./assets/logo.png" />
         <z-btn color="purple white--text">HELLO WORLD</z-btn>
         <div class="test" v-ripple="{color: 'yellow'}"></div>
-        <z-progress-circular value="30" loading></z-progress-circular>
+        <z-progress-circular color="pink" loading></z-progress-circular>
     </div>
 </template>
 

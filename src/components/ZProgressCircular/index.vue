@@ -4,13 +4,14 @@ import Component, { mixins } from 'vue-class-component'
 import { VNode, VNodeData } from 'vue/types/vnode'
 
 import colorable from '@/mixins/colorable'
-import sizeable from '@/mixins/sizeable'
-import measurable from '@/mixins/measurable'
 
 @Component
-export default class ZProgressCircular extends mixins(colorable, sizeable, measurable) {
+export default class ZProgressCircular extends mixins(colorable) {
     @Prop({ type: [Number, String], default: 100 }) value!: number | string
+    @Prop({ type: [Number, String], default: 4 }) width!: number | string
+    @Prop({ type: [Number, String], default: 18 }) radius!: number | string
     @Prop({ type: Boolean, default: false }) loading!: boolean
+
     perimeter: number = 100
 
     get classes(): object {
@@ -22,29 +23,38 @@ export default class ZProgressCircular extends mixins(colorable, sizeable, measu
 
     get styles(): object {
         return {
-            width: '36px',
-            height: '36px'
+            width: `${2 * +this.radius}px`,
+            height: `${2 * +this.radius}px`
         }
     }
 
     genCircular(): VNode {
-        const background: VNode = (
-            <circle class="background" cx="20" cy="20" r="16" stroke="#ddd"></circle>
-        )
+        const radius = 20
+        const size = 2 * radius + +this.width
+        const data = {
+            attrs: {
+                r: radius,
+                cx: size / 2,
+                cy: size / 2
+            }
+        }
+        const background: VNode = <circle class="background" stroke="#ddd" {...data}></circle>
 
         return (
-            <svg class="z-progress-circular__content" fill="none" viewBox="0 0 40 40">
+            <svg
+                class="z-progress-circular__content"
+                fill="none"
+                viewBox={`0 0 ${size} ${size}`}
+                stroke-width={this.width}
+            >
                 {!this.loading && background}
                 <circle
                     class="current"
-                    cx="20"
-                    cy="20"
-                    r="16"
                     stroke="currentColor"
                     fill="none"
-                    stroke-width="4"
                     stroke-dasharray={this.perimeter}
                     stroke-dashoffset={this.perimeter - +this.value}
+                    {...data}
                 ></circle>
             </svg>
         )
@@ -63,8 +73,9 @@ export default class ZProgressCircular extends mixins(colorable, sizeable, measu
             class: this.classes,
             style: this.styles
         }
+
         return (
-            <div {...data}>
+            <div {...this.setTextColor(data)}>
                 {this.genCircular()}
                 {this.genInfoContent()}
             </div>

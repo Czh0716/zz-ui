@@ -10,6 +10,7 @@ export default class colorable extends Vue {
 
     setBackgroundColor(data: VNodeData = {}): VNodeData {
         const color: string = this.color
+        if (!color) return data
         if (isCssColor(color)) {
             data.style = {
                 ...(data.style as object),
@@ -27,6 +28,7 @@ export default class colorable extends Vue {
 
     setTextColor(data: VNodeData = {}): VNodeData {
         const color: string = this.color
+        if (!color) return data
         if (isCssColor(color)) {
             data.style = {
                 ...(data.style as object),
