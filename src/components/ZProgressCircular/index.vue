@@ -90,14 +90,15 @@ export default class ZProgressCircular extends mixins(colorable, sizeable, measu
 }
 .z-progress-circular--loading {
     .current {
-        animation: circular-loading 1s linear infinite;
+        animation: circular-loading 1.8s linear infinite;
         transform-origin: center center;
+        stroke-dasharray: 80 20 0 100;
     }
 }
 
 @keyframes circular-loading {
     from {
-        stroke-dashoffset: 100;
+        stroke-dashoffset: 80;
         transform: rotate(0deg);
     }
     to {
