@@ -5,9 +5,16 @@
         <z-btn color="purple white--text">HELLO WORLD</z-btn>
         <div class="test"></div>
         <z-progress-circular color="pink" loading></z-progress-circular>
-        <z-waterfall-list>
-            <z-waterfall-item>asd</z-waterfall-item>
-        </z-waterfall-list>
+        <div class="wrap">
+            <z-waterfall-container columnClass="my-column">
+                <z-waterfall-item v-for="item in 10" :key="item">
+                    <div
+                        :style="{height: `${Math.max(10, parseInt(Math.random()*30))*10}px`,
+                backgroundColor:`#${Math.random().toString(16).slice(-6)}`}"
+                    >{{item}}</div>
+                </z-waterfall-item>
+            </z-waterfall-container>
+        </div>
     </div>
 </template>
 
@@ -27,6 +34,10 @@ export default class App extends Vue {
 
 <style lang="scss">
 @use "sass:math";
+
+.wrap {
+    padding: 0 30px;
+}
 
 #app {
     text-align: center;

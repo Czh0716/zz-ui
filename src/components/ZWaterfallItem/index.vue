@@ -1,22 +1,55 @@
 <script lang="tsx">
 import { Prop, Vue, Inject } from 'vue-property-decorator'
 import Component, { mixins } from 'vue-class-component'
-import { VNode } from 'vue/types/vnode'
+import { VNode, VNodeData } from 'vue/types/vnode'
 
 @Component
 export default class ZWaterfallItem extends Vue {
-    @Inject('arrangedVNodes') arrangedVNodes!: VNode[]
+    @Inject('arrangedColumns') arrangedColumns!: any
+
+    get classes(): object {
+        return {
+            'z-waterfall-item': true
+        }
+    }
+
+    get shortest(): number {
+        let minIdx = 0
+        let minHeight = Infinity
+
+        this.arrangedColumns.forEach((item: any, index: number) => {
+            if (item.currentHeight < minHeight) {
+                minIdx = index
+                minHeight = item.currentHeight
+            }
+        })
+
+        return minIdx
+    }
 
     mounted(): void {
         const dom: HTMLElement = this.$refs.dom as HTMLElement
-        dom.clientHeight
+        const height: number = dom.clientHeight
+        const target = this.arrangedColumns[this.shortest]
+
+        target.list.push(this.$slots.default![0])
+        target.currentHeight += height
     }
     render() {
-        console.log(this.arrangedVNodes)
-        return <div ref="dom">{this.$slots.default}</div>
+        const data: VNodeData = {
+            class: this.classes
+        }
+        return (
+            <div {...data} ref="dom">
+                {this.$slots.default}
+            </div>
+        )
     }
 }
 </script>
 
 <style lang="scss">
+.z-waterfall-item {
+    visibility: hidden;
+}
 </style>
