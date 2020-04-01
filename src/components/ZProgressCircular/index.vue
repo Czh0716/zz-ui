@@ -92,7 +92,8 @@ export default class ZProgressCircular extends mixins(colorable, sizeable, measu
     .current {
         animation: circular-loading 1.8s linear infinite;
         transform-origin: center center;
-        stroke-dasharray: 80 20 0 100;
+        stroke-dasharray: 80 100;
+        stroke-linecap: round;
     }
 }
 
