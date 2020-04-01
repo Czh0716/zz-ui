@@ -5,6 +5,9 @@
         <z-btn color="purple white--text">HELLO WORLD</z-btn>
         <div class="test"></div>
         <z-progress-circular color="pink" loading></z-progress-circular>
+        <z-waterfall-list>
+            <z-waterfall-item>asd</z-waterfall-item>
+        </z-waterfall-list>
     </div>
 </template>
 
