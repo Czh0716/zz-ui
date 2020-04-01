@@ -12,7 +12,7 @@ export default class ZProgressCircular extends mixins(colorable) {
     @Prop({ type: [Number, String], default: 18 }) radius!: number | string
     @Prop({ type: Boolean, default: false }) loading!: boolean
 
-    perimeter: number = 100
+    realRadius: number = 20
 
     get classes(): object {
         return {
@@ -29,8 +29,9 @@ export default class ZProgressCircular extends mixins(colorable) {
     }
 
     genCircular(): VNode {
-        const radius = 20
-        const size = 2 * radius + +this.width
+        const radius: number = this.realRadius
+        const perimeter: number = 2 * 3.1415 * radius
+        const size: number = 2 * radius + +this.width
         const data = {
             attrs: {
                 r: radius,
@@ -52,8 +53,8 @@ export default class ZProgressCircular extends mixins(colorable) {
                     class="current"
                     stroke="currentColor"
                     fill="none"
-                    stroke-dasharray={this.perimeter}
-                    stroke-dashoffset={this.perimeter - +this.value}
+                    stroke-dasharray={perimeter}
+                    stroke-dashoffset={(perimeter * (100 - +this.value)) / 100}
                     {...data}
                 ></circle>
             </svg>
@@ -99,22 +100,24 @@ export default class ZProgressCircular extends mixins(colorable) {
     left: 0;
     top: 0;
 }
+
+$perimeter: 2 * 3.1415 * 20;
 .z-progress-circular--loading {
     .current {
         animation: circular-loading 1.8s linear infinite;
         transform-origin: center center;
-        stroke-dasharray: 80 100;
+        stroke-dasharray: $perimeter - 20 $perimeter;
         stroke-linecap: round;
     }
 }
 
 @keyframes circular-loading {
     from {
-        stroke-dashoffset: 80;
+        stroke-dashoffset: $perimeter - 20;
         transform: rotate(0deg);
     }
     to {
-        stroke-dashoffset: -100;
+        stroke-dashoffset: -$perimeter;
         transform: rotate(360deg);
     }
 }
