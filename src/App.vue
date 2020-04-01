@@ -3,7 +3,7 @@
         <z-progress-linear color="blue" loading></z-progress-linear>
         <img alt="Vue logo" src="./assets/logo.png" />
         <z-btn color="purple white--text">HELLO WORLD</z-btn>
-        <div class="test" v-ripple="{color: 'yellow'}"></div>
+        <div class="test"></div>
         <z-progress-circular color="pink" loading></z-progress-circular>
     </div>
 </template>
@@ -23,12 +23,27 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
+@use "sass:math";
+
 #app {
     text-align: center;
     .test {
+        position: relative;
         width: 600px;
         height: 160px;
         background-color: pink;
+        overflow: hidden;
+        &::before {
+            content: '';
+            position: absolute;
+            width: 100% / math.cos(10deg);
+            height: 100%;
+            left: 0;
+            top: 100%;
+            transform-origin: left top;
+            transform: rotate(-10deg);
+            background-color: #fafafa;
+        }
     }
 }
 </style>

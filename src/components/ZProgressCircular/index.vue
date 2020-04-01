@@ -104,7 +104,7 @@ export default class ZProgressCircular extends mixins(colorable) {
 $perimeter: 2 * 3.1415 * 20;
 .z-progress-circular--loading {
     .current {
-        animation: circular-loading 1.8s linear infinite;
+        animation: circular-loading 1.5s linear infinite;
         transform-origin: center center;
         stroke-dasharray: $perimeter - 20 $perimeter;
         stroke-linecap: round;
