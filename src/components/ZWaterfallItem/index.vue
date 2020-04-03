@@ -13,7 +13,7 @@ export default class ZWaterfallItem extends Vue {
         }
     }
 
-    get shortest(): number {
+    get shortest(): any {
         let minIdx = 0
         let minHeight = Infinity
 
@@ -24,13 +24,13 @@ export default class ZWaterfallItem extends Vue {
             }
         })
 
-        return minIdx
+        return this.arrangedColumns[minIdx]
     }
 
     mounted(): void {
         const dom: HTMLElement = this.$refs.dom as HTMLElement
         const height: number = dom.clientHeight
-        const target = this.arrangedColumns[this.shortest]
+        const target = this.shortest
 
         target.list.push(this.$slots.default![0])
         target.currentHeight += height

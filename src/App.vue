@@ -6,9 +6,16 @@
         <div class="test"></div>
         <z-progress-circular color="pink" loading></z-progress-circular>
         <div class="wrap">
-            <z-waterfall-container columnClass="my-column">
-                <z-waterfall-item v-for="item in 10" :key="item">
+            <z-waterfall-container columnClass="my-column" columns="4">
+                <template #column-1>
+                    <div>custom content</div>
+                </template>
+                <template #column-2>
+                    <div>custom content</div>
+                </template>
+                <z-waterfall-item v-for="item in 20" :key="item">
                     <div
+                        class="item"
                         :style="{height: `${Math.max(10, parseInt(Math.random()*30))*10}px`,
                 backgroundColor:`#${Math.random().toString(16).slice(-6)}`}"
                     >{{item}}</div>
@@ -39,25 +46,22 @@ export default class App extends Vue {
     padding: 0 30px;
 }
 
+.my-column + .my-column {
+    margin-left: 30px;
+}
+.item {
+    margin-bottom: 20px;
+}
+
 #app {
     text-align: center;
     .test {
         position: relative;
         width: 600px;
         height: 160px;
-        background-color: pink;
+        margin: 0 auto;
+        border-radius: 4px;
         overflow: hidden;
-        &::before {
-            content: '';
-            position: absolute;
-            width: 100% / math.cos(10deg);
-            height: 100%;
-            left: 0;
-            top: 100%;
-            transform-origin: left top;
-            transform: rotate(-10deg);
-            background-color: #fafafa;
-        }
     }
 }
 </style>

@@ -11,8 +11,10 @@ interface arrangedColumnMap {
 @Component
 export default class ZWaterfallContainer extends Vue {
     @Prop({ type: [Number, String], default: 3 }) columns!: number | string
-    @Prop({ type: String, default: '' }) wrapClass!: string
+    @Prop({ type: String, default: '' }) containerClass!: string
     @Prop({ type: String, default: '' }) columnClass!: string
+    @Prop() mergeColumns!: any
+
     @Provide('arrangedColumns') arrangedColumns: arrangedColumnMap[] = Array.from({
         length: +this.columns
     }).map(() => {
@@ -24,7 +26,7 @@ export default class ZWaterfallContainer extends Vue {
     get classes(): object {
         return {
             'z-waterfall-container': true,
-            [this.wrapClass]: !!this.wrapClass
+            [this.containerClass]: !!this.containerClass
         }
     }
 
@@ -35,12 +37,14 @@ export default class ZWaterfallContainer extends Vue {
             this.first = false
             return this.$slots.default
         }
+        console.log(this.$slots)
 
-        return this.arrangedColumns.map((col: any) => {
+        return this.arrangedColumns.map((col: any, index: any) => {
             return (
                 <div
                     class={{ 'z-waterfall--column': true, [this.columnClass]: !!this.columnClass }}
                 >
+                    {this.$slots[`column-${index + 1}`]}
                     {col.list}
                 </div>
             )
