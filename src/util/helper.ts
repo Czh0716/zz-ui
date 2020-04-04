@@ -16,8 +16,8 @@ export function convertToUnit(
 
 export function createSimpleFunctional(
     c: string,
-    tag: string = 'div',
-    name?: string
+    name?: string,
+    tag: string = 'div'
 ) {
     return Vue.extend({
         name:
@@ -26,7 +26,8 @@ export function createSimpleFunctional(
         functional: true,
         render(h, context): VNode {
             const data: VNodeData = context.data
-            data.class[c.trim()] = true
+            data.staticClass = `${c} ${data.staticClass || ''}`
+            console.log(c, data)
             return h(tag, data, context.children)
         }
     })

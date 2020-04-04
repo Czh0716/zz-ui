@@ -5,7 +5,9 @@
         <z-btn color="purple white--text">HELLO WORLD</z-btn>
         <div class="test"></div>
         <z-progress-circular color="pink" loading></z-progress-circular>
-        <z-card>asd</z-card>
+        <z-card>
+            <z-card-text>asd</z-card-text>
+        </z-card>
         <div class="wrap">
             <z-waterfall-container columnClass="my-column" columns="4" :mergeColumns="[[2,3]]">
                 <template #column-1>
