@@ -27,7 +27,6 @@ export function createSimpleFunctional(
         render(h, context): VNode {
             const data: VNodeData = context.data
             data.staticClass = `${c} ${data.staticClass || ''}`
-            console.log(c, data)
             return h(tag, data, context.children)
         }
     })

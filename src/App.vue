@@ -5,11 +5,13 @@
         <z-btn color="purple white--text">HELLO WORLD</z-btn>
         <div class="test"></div>
         <z-progress-circular color="pink" loading></z-progress-circular>
-        <z-card>
-            <z-card-text>asd</z-card-text>
-        </z-card>
+
         <div class="wrap">
-            <z-waterfall-container columnClass="my-column" columns="4" :mergeColumns="[[2,3]]">
+            <z-card class="mx-auto" max-width="300">
+                <z-card-title>Title</z-card-title>
+                <z-card-text>asd</z-card-text>
+            </z-card>
+            <!-- <z-waterfall-container columnClass="my-column" columns="4" :mergeColumns="[[2,3]]">
                 <template #column-1>
                     <div
                         style="height:200px;backgroundColor: skyblue;marginBottom:20px"
@@ -25,7 +27,7 @@
                 backgroundColor:`#${Math.random().toString(16).slice(-6)}`}"
                     >{{item}}</div>
                 </z-waterfall-item>
-            </z-waterfall-container>
+            </z-waterfall-container>-->
         </div>
     </div>
 </template>
@@ -46,6 +48,10 @@ export default class App extends Vue {
 
 <style lang="scss">
 @use "sass:math";
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
 
 .wrap {
     padding: 0 30px;
