@@ -1,12 +1,23 @@
-const componentsFiles: any = require.context('./', true, /\.vue$/)
+const componentsFiles: any = require.context(
+    './',
+    true,
+    /\w+\/index\.(vue|ts)$/
+)
+console.log(componentsFiles.keys())
 const components = componentsFiles
     .keys()
     .reduce((acc: any, componentPath: any) => {
         const componentName = componentPath.replace(
-            /^\.\/(.*)\/index.vue$/,
+            /^\.\/(.*)\/index\.(vue|ts)$/,
             '$1'
         )
-        acc[componentName] = componentsFiles(componentPath).default
+        const files = componentsFiles(componentPath).default
+        if (typeof files === 'object') {
+            acc = { ...acc, ...files }
+        } else {
+            acc[componentName] = files
+        }
+
         return acc
     }, {})
 
