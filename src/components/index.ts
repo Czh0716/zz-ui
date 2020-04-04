@@ -3,7 +3,6 @@ const componentsFiles: any = require.context(
     true,
     /\w+\/index\.(vue|ts)$/
 )
-console.log(componentsFiles.keys())
 const components = componentsFiles
     .keys()
     .reduce((acc: any, componentPath: any) => {
