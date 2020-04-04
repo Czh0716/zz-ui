@@ -6,12 +6,14 @@
         <div class="test"></div>
         <z-progress-circular color="pink" loading></z-progress-circular>
         <div class="wrap">
-            <z-waterfall-container columnClass="my-column" columns="4">
+            <z-waterfall-container columnClass="my-column" columns="4" :mergeColumns="[[2,3]]">
                 <template #column-1>
-                    <div>custom content</div>
+                    <div
+                        style="height:200px;backgroundColor: skyblue;marginBottom:20px"
+                    >custom content</div>
                 </template>
-                <template #column-2>
-                    <div>custom content</div>
+                <template #column-2-3>
+                    <div style="height:400px;backgroundColor: pink;marginBottom:20px">custom content</div>
                 </template>
                 <z-waterfall-item v-for="item in 20" :key="item">
                     <div
