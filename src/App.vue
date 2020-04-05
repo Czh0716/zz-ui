@@ -7,7 +7,7 @@
         <z-progress-circular color="pink" loading></z-progress-circular>
 
         <div class="wrap">
-            <z-card class="mx-auto" max-width="300">
+            <z-card class="mx-auto" max-width="600" corner color="blue white--text">
                 <z-card-title>Title</z-card-title>
                 <z-card-text>asd</z-card-text>
             </z-card>
@@ -48,6 +48,7 @@ export default class App extends Vue {
 
 <style lang="scss">
 @use "sass:math";
+
 .mx-auto {
     margin-left: auto;
     margin-right: auto;
@@ -55,6 +56,7 @@ export default class App extends Vue {
 
 .wrap {
     padding: 0 30px;
+    text-align: left;
 }
 
 .my-column + .my-column {
