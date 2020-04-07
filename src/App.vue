@@ -6,7 +6,7 @@
         <z-progress-circular color="pink" loading></z-progress-circular>
 
         <div class="wrap" id="wrap">
-            <z-dialog>
+            <z-dialog persistent max-width="400px">
                 <template #activator="{on}">
                     <z-btn color="purple white--text" @click="on">HELLO WORLD</z-btn>
                 </template>

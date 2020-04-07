@@ -3,13 +3,17 @@ import { Prop, Watch, Vue } from 'vue-property-decorator'
 import Component, { mixins } from 'vue-class-component'
 import { VNode, VNodeData } from 'vue/types/vnode'
 
+import measurable from '@/mixins/measurable'
+
 @Component
-export default class ZDialog extends Vue {
+export default class ZDialog extends mixins(measurable) {
     @Prop() value!: any
     @Prop({ type: [String, Boolean], default: 'dialog' }) transition!: string | boolean
+    @Prop({ type: Boolean, default: false }) persistent!: string | boolean
 
-    isActive = !!this.value
+    isActive: boolean = !!this.value
     activatorNode: VNode[] | undefined = []
+    shock: boolean = false
 
     get classes(): object {
         return {
@@ -50,6 +54,12 @@ export default class ZDialog extends Vue {
     genContent(): VNode {
         const data: VNodeData = {
             staticClass: 'z-dialog__content',
+            class: {
+                'z-dialog__content--shock': this.shock
+            },
+            style: {
+                ...this.measurableStyles
+            },
             ref: 'content'
         }
         const node =
@@ -88,6 +98,21 @@ export default class ZDialog extends Vue {
     render(): VNode {
         const data: VNodeData = {
             class: this.classes,
+            on: {
+                click: (e: MouseEvent) => {
+                    if (e.target !== e.currentTarget) return
+                    if (this.persistent) {
+                        !this.shock &&
+                            setTimeout(() => {
+                                this.shock = false
+                            }, 250)
+
+                        this.shock = true
+                        return
+                    }
+                    this.isActive = false
+                }
+            },
             directives: [{ name: 'show', value: this.isActive }],
             ref: 'dialog'
         }
@@ -127,11 +152,27 @@ export default class ZDialog extends Vue {
     justify-content: center;
     z-index: 202;
 }
+.z-dialog__container {
+    pointer-events: noen;
+}
 .z-overlay {
     background-color: rgba(0, 0, 0, 0.2);
 }
 
 .z-dialog__content {
     width: 100%;
+}
+.z-dialog__content--shock {
+    animation: shock 0.25s;
+    @keyframes shock {
+        0%,
+        100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.1);
+        }
+    }
 }
 </style>
