@@ -2,15 +2,26 @@
     <div id="app">
         <z-progress-linear color="blue" loading></z-progress-linear>
         <img alt="Vue logo" src="./assets/logo.png" />
-        <z-btn color="purple white--text">HELLO WORLD</z-btn>
         <div class="test"></div>
         <z-progress-circular color="pink" loading></z-progress-circular>
 
-        <div class="wrap">
-            <z-card class="mx-auto" max-width="600" corner color="blue white--text">
-                <z-card-title>Title</z-card-title>
-                <z-card-text>asd</z-card-text>
-            </z-card>
+        <div class="wrap" id="wrap">
+            <z-dialog>
+                <template #activator="{on}">
+                    <z-btn color="purple white--text" @click="on">HELLO WORLD</z-btn>
+                </template>
+
+                <template #default="{on}">
+                    <z-card class="mx-auto" max-width="600" corner color="blue white--text">
+                        <z-card-title>Title</z-card-title>
+                        <z-card-text>asd</z-card-text>
+                        <z-card-text>
+                            <z-btn color="red white--text" @click="on">CLOSE</z-btn>
+                        </z-card-text>
+                    </z-card>
+                </template>
+            </z-dialog>
+
             <!-- <z-waterfall-container columnClass="my-column" columns="4" :mergeColumns="[[2,3]]">
                 <template #column-1>
                     <div
@@ -39,10 +50,10 @@ import { Component, Vue, Provide } from 'vue-property-decorator'
 export default class App extends Vue {
     @Provide() test = 13
     loading: boolean = false
+    dialog: boolean = true
     change() {
         this.loading = !this.loading
     }
-    haha() {}
 }
 </script>
 
@@ -68,13 +79,5 @@ export default class App extends Vue {
 
 #app {
     text-align: center;
-    .test {
-        position: relative;
-        width: 600px;
-        height: 160px;
-        margin: 0 auto;
-        border-radius: 4px;
-        overflow: hidden;
-    }
 }
 </style>
