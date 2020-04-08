@@ -2,7 +2,6 @@
     <div id="app">
         <z-progress-linear color="blue" loading></z-progress-linear>
         <img alt="Vue logo" src="./assets/logo.png" />
-        <div class="test"></div>
         <z-progress-circular color="pink" loading></z-progress-circular>
         <z-btn @click="$dialog()">Test</z-btn>
         <div id="test"></div>

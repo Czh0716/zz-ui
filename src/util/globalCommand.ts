@@ -1,14 +1,53 @@
 import Vue from 'vue'
 import ZDialog from '@/components/ZDialog/index.vue'
 
+let dialog: any = null
+
 const commands: Record<string, any> = {
     dialog() {
-        const dialog = new Vue({
-            render: h => h(ZDialog)
+        console.log(dialog?.visible)
+        if (dialog) return (dialog.visible = !dialog.visible)
+        dialog = new Vue({
+            data() {
+                return {
+                    visible: true
+                }
+            },
+            render: h =>
+                h(
+                    ZDialog,
+                    {
+                        props: {
+                            value: dialog.visible
+                        },
+                        on: {
+                            input(val: boolean) {
+                                dialog.visible = val
+                            }
+                        }
+                    },
+                    [
+                        h(
+                            'z-card',
+                            {
+                                props: {
+                                    color: 'yellow white--text'
+                                }
+                            },
+                            [
+                                h('z-card-title', 'This title'),
+                                h('z-card-text', 'Content!')
+                            ]
+                        )
+                    ]
+                )
         })
-        const app = document.getElementById('test') || document.body
-        console.log(app)
-        dialog.$mount(app)
+
+        // dialog.isActive = true
+        const app = document.getElementById('app') || document.body
+        const container = document.createElement('div')
+        app.appendChild(container)
+        dialog.$mount(container)
     }
 }
 
