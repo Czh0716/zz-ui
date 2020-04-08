@@ -3,21 +3,21 @@ import Component, { mixins } from 'vue-class-component'
 
 import bootable from '@/mixins/bootable'
 
-export function factory(prop = 'value', event = 'input') {
+export function factory(prop: 'value' = 'value', event = 'input') {
     @Component({
         watch: {
             [prop](val: any) {
-                this.isActive = !!this[prop]
+                ;(this as any).isActive = !!(this as any)[prop]
             },
             isActive(val: any) {
-                val !== this[prop] && this.$emit(event, val)
+                val !== (this as any)[prop] && this.$emit(event, val)
             }
         }
     })
     class toggleable extends mixins(bootable) {
         @Model(event) [prop]!: any
 
-        isActive: boolean = !!this[prop]
+        isActive: boolean = !!(this as any)[prop]
     }
 
     return toggleable

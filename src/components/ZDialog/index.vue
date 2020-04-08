@@ -64,7 +64,6 @@ export default class ZDialog extends mixins(measurable, toggleable) {
     mounted() {
         const app: HTMLElement = document.getElementById('app') || document.body
         const dialog: HTMLElement = this.$el as HTMLElement
-
         app.insertBefore(this.$refs.overlay as Node, app.firstChild)
         if (this.activatorNode) {
             this.$nextTick(() => {
@@ -86,6 +85,7 @@ export default class ZDialog extends mixins(measurable, toggleable) {
     }
 
     render(): VNode {
+        console.log('hah')
         const data: VNodeData = {
             class: this.classes,
             on: {

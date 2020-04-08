@@ -4,7 +4,8 @@
         <img alt="Vue logo" src="./assets/logo.png" />
         <div class="test"></div>
         <z-progress-circular color="pink" loading></z-progress-circular>
-
+        <z-btn @click="$dialog()">Test</z-btn>
+        <div id="test"></div>
         <div class="wrap" id="wrap">
             <z-dialog v-model="dialog" persistent max-width="400px">
                 <template #activator="{on}">
