@@ -22,8 +22,14 @@ export default class ZDialog extends mixins(measurable) {
     }
 
     @Watch('value')
-    handleVisibilityChanged(val: any) {
+    handleOutsideChanged(val: any) {
         this.isActive = !!val
+    }
+
+    @Watch('isActive')
+    handleInsideChanged() {
+        if (this.isActive === this.value) return
+        this.$emit('input', this.isActive)
     }
 
     genOverlay(): VNode {
