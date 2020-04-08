@@ -111,7 +111,7 @@ export default class ZDialog extends mixins(measurable, toggleable) {
             <div {...data}>
                 {this.genOverlay()}
                 {this.genActivator()}
-                {this.genContent()}
+                {this.lazyContent(this.genContent())}
             </div>
         )
 

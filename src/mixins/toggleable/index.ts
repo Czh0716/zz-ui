@@ -1,5 +1,7 @@
 import { Vue, Model } from 'vue-property-decorator'
-import Component from 'vue-class-component'
+import Component, { mixins } from 'vue-class-component'
+
+import bootable from '@/mixins/bootable'
 
 export function factory(prop = 'value', event = 'input') {
     @Component({
@@ -12,7 +14,7 @@ export function factory(prop = 'value', event = 'input') {
             }
         }
     })
-    class toggleable extends Vue {
+    class toggleable extends mixins(bootable) {
         @Model(event) [prop]!: any
 
         isActive: boolean = !!this[prop]
