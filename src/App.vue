@@ -50,7 +50,7 @@ import { Component, Vue, Provide } from 'vue-property-decorator'
 export default class App extends Vue {
     @Provide() test = 13
     loading: boolean = false
-    dialog: boolean = true
+    dialog: boolean = false
     change() {
         this.loading = !this.loading
     }

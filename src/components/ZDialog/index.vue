@@ -4,14 +4,13 @@ import Component, { mixins } from 'vue-class-component'
 import { VNode, VNodeData } from 'vue/types/vnode'
 
 import measurable from '@/mixins/measurable'
+import toggleable from '@/mixins/toggleable'
 
 @Component
-export default class ZDialog extends mixins(measurable) {
-    @Prop() value!: any
+export default class ZDialog extends mixins(measurable, toggleable) {
     @Prop({ type: [String, Boolean], default: 'dialog' }) transition!: string | boolean
     @Prop({ type: Boolean, default: false }) persistent!: string | boolean
 
-    isActive: boolean = !!this.value
     activatorNode: VNode[] | undefined = []
     shock: boolean = false
 
@@ -19,17 +18,6 @@ export default class ZDialog extends mixins(measurable) {
         return {
             'z-dialog__container': true
         }
-    }
-
-    @Watch('value')
-    handleOutsideChanged(val: any) {
-        this.isActive = !!val
-    }
-
-    @Watch('isActive')
-    handleInsideChanged() {
-        if (this.isActive === this.value) return
-        this.$emit('input', this.isActive)
     }
 
     genOverlay(): VNode {
