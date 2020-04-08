@@ -40,11 +40,9 @@ export default class ZDialog extends mixins(measurable) {
     }
 
     genActivator() {
-        const nodes =
-            this.$scopedSlots.activator &&
-            this.$scopedSlots.activator({
-                on: () => (this.isActive = !this.isActive)
-            })
+        const nodes = this.$scopedSlots.activator?.({
+            on: () => (this.isActive = !this.isActive)
+        })
 
         this.activatorNode = nodes
 
@@ -62,11 +60,9 @@ export default class ZDialog extends mixins(measurable) {
             },
             ref: 'content'
         }
-        const node =
-            this.$scopedSlots.default &&
-            this.$scopedSlots.default({
-                on: () => (this.isActive = !this.isActive)
-            })
+        const node = this.$scopedSlots.default?.({
+            on: () => (this.isActive = !this.isActive)
+        })
 
         return <div {...data}>{node}</div>
     }
