@@ -8,7 +8,7 @@ import directives from '@/directives'
 Vue.use(directives)
 import '@/styles/main.sass'
 
-import globalCommand from '@/util/globalCommand'
+import globalCommand from '@/util/globalCommand.tsx'
 Vue.use(globalCommand as any)
 
 Vue.config.productionTip = false

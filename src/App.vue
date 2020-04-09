@@ -3,7 +3,7 @@
         <z-progress-linear color="blue" loading></z-progress-linear>
         <img alt="Vue logo" src="./assets/logo.png" />
         <z-progress-circular color="pink" loading></z-progress-circular>
-        <z-btn @click="$dialog()">Test</z-btn>
+        <z-btn @click="$confirm()">Test</z-btn>
         <div id="test"></div>
         <div class="wrap" id="wrap">
             <z-dialog v-model="dialog" persistent max-width="400px">
@@ -78,6 +78,5 @@ export default class App extends Vue {
 }
 
 #app {
-    text-align: center;
 }
 </style>
