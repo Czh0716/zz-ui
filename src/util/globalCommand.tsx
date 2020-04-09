@@ -50,7 +50,6 @@ const commands: Record<string, any> = {
         dialog.$mount(container)
     },
     confirm() {
-        console.log(confirm?.isActive)
         if (confirm) return (confirm.isActive = !confirm.isActive)
 
         return new Promise((resolve, reject) => {
@@ -77,6 +76,29 @@ const commands: Record<string, any> = {
                             <z-card color="white">
                                 <z-card-title>Confirm Window</z-card-title>
                                 <z-card-text>是否继续？</z-card-text>
+                                <z-card-action>
+                                    <z-btn
+                                        color="green white--text"
+                                        on={{
+                                            click() {
+                                                resolve()
+                                            }
+                                        }}
+                                    >
+                                        确定
+                                    </z-btn>
+                                    <z-btn
+                                        color="red white--text"
+                                        on={{
+                                            click() {
+                                                confirm.isActive = false
+                                                reject()
+                                            }
+                                        }}
+                                    >
+                                        取消
+                                    </z-btn>
+                                </z-card-action>
                             </z-card>
                         </z-dialog>
                     )

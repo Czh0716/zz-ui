@@ -65,7 +65,8 @@ export default class ZCard extends mixins(measurable, colorable) {
 }
 
 .z-card--text,
-.z-card--title {
+.z-card--title,
+.z-card--action {
     padding: 16px;
 }
 
@@ -109,6 +110,12 @@ export default class ZCard extends mixins(measurable, colorable) {
             border-bottom-color: currentColor;
             border-bottom-left-radius: 4px;
         }
+    }
+}
+
+.z-card--action {
+    .z-btn + .z-btn {
+        margin-left: 16px;
     }
 }
 </style>
