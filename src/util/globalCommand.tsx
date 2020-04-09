@@ -61,8 +61,19 @@ const commands: Record<string, any> = {
                     }
                 },
                 render() {
+                    const dialogData = {
+                        props: {
+                            value: confirm.isActive,
+                            'max-width': 300
+                        },
+                        on: {
+                            input(val: boolean) {
+                                confirm.isActive = val
+                            }
+                        }
+                    }
                     return (
-                        <z-dialog value={confirm.isActive} max-width="300">
+                        <z-dialog {...dialogData}>
                             <z-card color="white">
                                 <z-card-title>Confirm Window</z-card-title>
                                 <z-card-text>是否继续？</z-card-text>
