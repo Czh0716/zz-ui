@@ -49,7 +49,15 @@ const commands: Record<string, any> = {
         app.appendChild(container)
         dialog.$mount(container)
     },
-    confirm() {
+    confirm(
+        options: any = {
+            title: 'Confirm Window',
+            content: '请确定是否继续？',
+            hiddenOperation: false,
+            confirmText: '确定',
+            cancelText: '取消'
+        }
+    ) {
         if (confirm) {
             confirm.isActive = !confirm.isActive
         } else {
@@ -57,10 +65,11 @@ const commands: Record<string, any> = {
                 methods: {
                     confirm() {
                         this.closeDialog()
-                        ;(this as any).resolve()
+                        ;(this as any).options.confirmCallback()
                     },
                     cancel() {
                         this.closeDialog()
+                        ;(this as any).options.cancelCallback()
                     },
                     closeDialog() {
                         this.isActive = false
@@ -69,7 +78,7 @@ const commands: Record<string, any> = {
                 data() {
                     return {
                         isActive: true,
-                        resolve: null
+                        options: {}
                     }
                 },
                 render() {
@@ -84,23 +93,25 @@ const commands: Record<string, any> = {
                             }
                         }
                     }
+                    const { title, content, confirmText, cancelText } = this
+                        .options as any
                     return (
                         <z-dialog {...dialogData}>
                             <z-card color="white">
-                                <z-card-title>Confirm Window</z-card-title>
-                                <z-card-text>是否继续？</z-card-text>
+                                <z-card-title>{title}</z-card-title>
+                                <z-card-text>{content}</z-card-text>
                                 <z-card-action>
                                     <z-btn
                                         color="green white--text"
                                         on={{ click: this.confirm }}
                                     >
-                                        确定
+                                        {confirmText}
                                     </z-btn>
                                     <z-btn
                                         color="red white--text"
                                         on={{ click: this.cancel }}
                                     >
-                                        取消
+                                        {cancelText}
                                     </z-btn>
                                 </z-card-action>
                             </z-card>
@@ -115,8 +126,17 @@ const commands: Record<string, any> = {
             confirm.$mount(container)
         }
 
+        confirm.options = options
+
         return new Promise(resolve => {
-            confirm.resolve = resolve
+            confirm.options.confirmCallback = function() {
+                options.confirmCallback?.()
+                resolve()
+            }
+
+            confirm.options.cancelCallback = function() {
+                options.cancelCallback?.()
+            }
         })
     }
 }
