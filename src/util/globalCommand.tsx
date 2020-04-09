@@ -69,8 +69,7 @@ const commands: Record<string, any> = {
                 data() {
                     return {
                         isActive: true,
-                        resolve: null,
-                        reject: null
+                        resolve: null
                     }
                 },
                 render() {
@@ -116,9 +115,8 @@ const commands: Record<string, any> = {
             confirm.$mount(container)
         }
 
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
             confirm.resolve = resolve
-            confirm.reject = reject
         })
     }
 }
