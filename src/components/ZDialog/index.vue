@@ -117,7 +117,8 @@ export default class ZDialog extends mixins(measurable, toggleable) {
         if (this.transition) {
             const transitionData: VNodeData = {
                 props: {
-                    name: this.transition
+                    name: this.transition,
+                    appear: true
                 }
             }
             return <transition {...transitionData}>{dialog}</transition>

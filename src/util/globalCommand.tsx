@@ -65,11 +65,11 @@ const commands: Record<string, any> = {
                 methods: {
                     confirm() {
                         this.closeDialog()
-                        ;(this as any).options.confirmCallback()
+                        ;(this as any).confirmOptions.confirmCb()
                     },
                     cancel() {
                         this.closeDialog()
-                        ;(this as any).options.cancelCallback()
+                        ;(this as any).confirmOptions.cancelCb()
                     },
                     closeDialog() {
                         this.isActive = false
@@ -78,7 +78,7 @@ const commands: Record<string, any> = {
                 data() {
                     return {
                         isActive: true,
-                        options: {}
+                        confirmOptions: {}
                     }
                 },
                 render() {
@@ -88,13 +88,13 @@ const commands: Record<string, any> = {
                             'max-width': 300
                         },
                         on: {
-                            input(val: boolean) {
+                            input: (val: boolean) => {
                                 ;(this as any).isActive = val
                             }
                         }
                     }
                     const { title, content, confirmText, cancelText } = this
-                        .options as any
+                        .confirmOptions as any
                     return (
                         <z-dialog {...dialogData}>
                             <z-card color="white">
@@ -126,17 +126,16 @@ const commands: Record<string, any> = {
             confirm.$mount(container)
         }
 
-        confirm.options = options
-
         return new Promise(resolve => {
-            confirm.options.confirmCallback = function() {
+            options.confirmCb = function() {
                 options.confirmCallback?.()
                 resolve()
             }
 
-            confirm.options.cancelCallback = function() {
+            options.cancelCb = function() {
                 options.cancelCallback?.()
             }
+            confirm.confirmOptions = options
         })
     }
 }
