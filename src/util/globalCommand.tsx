@@ -50,24 +50,38 @@ const commands: Record<string, any> = {
         dialog.$mount(container)
     },
     confirm() {
-        if (confirm) return (confirm.isActive = !confirm.isActive)
-
-        return new Promise((resolve, reject) => {
+        if (confirm) {
+            confirm.isActive = !confirm.isActive
+        } else {
             confirm = new Vue({
+                methods: {
+                    confirm() {
+                        this.closeDialog()
+                        ;(this as any).resolve()
+                    },
+                    cancel() {
+                        this.closeDialog()
+                    },
+                    closeDialog() {
+                        this.isActive = false
+                    }
+                },
                 data() {
                     return {
-                        isActive: true
+                        isActive: true,
+                        resolve: null,
+                        reject: null
                     }
                 },
                 render() {
                     const dialogData = {
                         props: {
-                            value: confirm.isActive,
+                            value: this.isActive,
                             'max-width': 300
                         },
                         on: {
                             input(val: boolean) {
-                                confirm.isActive = val
+                                ;(this as any).isActive = val
                             }
                         }
                     }
@@ -79,22 +93,13 @@ const commands: Record<string, any> = {
                                 <z-card-action>
                                     <z-btn
                                         color="green white--text"
-                                        on={{
-                                            click() {
-                                                resolve()
-                                            }
-                                        }}
+                                        on={{ click: this.confirm }}
                                     >
                                         确定
                                     </z-btn>
                                     <z-btn
                                         color="red white--text"
-                                        on={{
-                                            click() {
-                                                confirm.isActive = false
-                                                reject()
-                                            }
-                                        }}
+                                        on={{ click: this.cancel }}
                                     >
                                         取消
                                     </z-btn>
@@ -109,6 +114,11 @@ const commands: Record<string, any> = {
             const container = document.createElement('div')
             app.appendChild(container)
             confirm.$mount(container)
+        }
+
+        return new Promise((resolve, reject) => {
+            confirm.resolve = resolve
+            confirm.reject = reject
         })
     }
 }

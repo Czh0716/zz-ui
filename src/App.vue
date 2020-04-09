@@ -3,7 +3,7 @@
         <z-progress-linear color="blue" loading></z-progress-linear>
         <img alt="Vue logo" src="./assets/logo.png" />
         <z-progress-circular color="pink" loading></z-progress-circular>
-        <z-btn @click="$confirm()">Test</z-btn>
+        <z-btn @click="change">Test</z-btn>
         <div id="test"></div>
         <div class="wrap" id="wrap">
             <z-dialog v-model="dialog" persistent max-width="400px">
@@ -51,8 +51,9 @@ export default class App extends Vue {
     @Provide() test = 13
     loading: boolean = false
     dialog: boolean = false
-    change() {
-        this.loading = !this.loading
+    async change() {
+        await (this as any).$confirm()
+        console.log('aaa')
     }
 }
 </script>
