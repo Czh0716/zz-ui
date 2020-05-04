@@ -1,10 +1,11 @@
 <template>
     <div id="app">
         <z-progress-linear color="blue" loading></z-progress-linear>
-        <img alt="Vue logo" src="./assets/logo.png" />
         <z-progress-circular color="pink" loading></z-progress-circular>
-        <z-btn @click="change">Test</z-btn>
-        <div id="test"></div>
+        <z-btn @click="particle = !particle">Test</z-btn>
+        <div style="padding: 10px; background: #f5da55">
+            <h4 style="color: #000; ">Hello world!</h4>
+        </div>
         <div class="wrap" id="wrap">
             <z-dialog v-model="dialog" persistent max-width="400px">
                 <template #activator="{on}">
@@ -40,26 +41,36 @@
                 </z-waterfall-item>
             </z-waterfall-container>-->
         </div>
+        <img v-particle="particle" width="200" src="./assets/logo.png" />
     </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Provide } from 'vue-property-decorator'
-
+import html2canvas from 'html2canvas'
 @Component
 export default class App extends Vue {
     @Provide() test = 13
     loading: boolean = false
     dialog: boolean = false
+    particle: boolean = true
     async change() {
         await (this as any).$confirm()
-        console.log('aaa')
     }
 }
 </script>
 
 <style lang="scss">
 @use "sass:math";
+
+.test {
+    width: 200px;
+    height: 200px;
+    cursor: pointer;
+    margin: auto;
+    background: url('https://images.pexels.com/photos/3989821/pexels-photo-3989821.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500')
+        no-repeat center center/cover;
+}
 
 .mx-auto {
     margin-left: auto;
@@ -78,6 +89,6 @@ export default class App extends Vue {
     margin-bottom: 20px;
 }
 
-#app {
+body {
 }
 </style>

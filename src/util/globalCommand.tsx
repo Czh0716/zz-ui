@@ -43,7 +43,6 @@ const commands: Record<string, any> = {
                 )
         })
 
-        // dialog.isActive = true
         const app = document.getElementById('app') || document.body
         const container = document.createElement('div')
         app.appendChild(container)

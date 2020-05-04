@@ -83,7 +83,7 @@ export default class ZDialog extends mixins(measurable, toggleable) {
             })
         }
     }
-
+                                                                    
     render(): VNode {
         const data: VNodeData = {
             class: this.classes,

@@ -1,9 +1,11 @@
 import ripple from './ripple'
+import particle from './particle'
 interface directiveOptions {
     [key: string]: object
 }
 const directives: directiveOptions = {
-    ripple
+    ripple,
+    particle
 }
 
 const install = function(Vue: any): void {
