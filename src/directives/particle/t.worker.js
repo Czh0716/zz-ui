@@ -1,16 +1,10 @@
 import { fill } from 'lodash'
 import chance from 'chance'
 const chanceInstance = new chance()
-
 addEventListener('message', e => {
-    let { canvasCount, imageDataArray, imgData } = e.data
-
+    let { canvasCount, imageDataArray, imgData, width, height } = e.data
     const pixelArr = imgData.data
-    for (let i = 0; i < canvasCount; i++) {
-        let arr = new Uint8ClampedArray(pixelArr)
-        fill(arr, 0)
-        imageDataArray.push(arr)
-    }
+
     function weightedRandomDistrib(peak) {
         var prob = [],
             seq = []
@@ -29,5 +23,6 @@ addEventListener('message', e => {
         a[i + 2] = pixelArr[i + 2]
         a[i + 3] = pixelArr[i + 3]
     }
+
     postMessage(imageDataArray)
 })

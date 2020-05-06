@@ -1,6 +1,5 @@
 import html2canvas from 'html2canvas'
 import chance from 'chance'
-import SWorker from 'simple-web-worker'
 import './particle.sass'
 const chanceInstance = new chance()
 import worker from './t.worker.js'
@@ -13,11 +12,14 @@ function setStyle(el: HTMLElement, style: { [key: string]: any }) {
 }
 
 class particle {
-    private canvasCount: number = 25
+    private canvasCount: number = 32
+    private status!: boolean
     private el: HTMLElement
     private imageDataArray: any[] = []
     private position: DOMRect
     private particles: HTMLCanvasElement[] = []
+    private TRANSITION_DURATION: number = 1200
+    private TRANSITION_DELAY: number = 1500
 
     constructor(el: HTMLElement) {
         this.el = el
@@ -33,12 +35,16 @@ class particle {
                 const ctx: CanvasRenderingContext2D = canvas.getContext(
                     '2d'
                 ) as CanvasRenderingContext2D
-                const imgData = ctx.getImageData(
-                    0,
-                    0,
-                    canvas.width,
-                    canvas.height
-                )
+                const { width, height } = canvas
+                const imgData = ctx.getImageData(0, 0, width, height)
+
+                //创建空图像数据数组
+                for (let i = 0; i < this.canvasCount; i++) {
+                    this.imageDataArray.push(
+                        ctx.createImageData(width, height).data
+                    )
+                }
+
                 myWorker.postMessage({
                     canvasCount: this.canvasCount,
                     imageDataArray: this.imageDataArray,
@@ -50,8 +56,8 @@ class particle {
                     for (let i = 0; i < this.canvasCount; i++) {
                         let c = this.newCanvasFromImageData(
                             imageDataArray[i],
-                            canvas.width,
-                            canvas.height
+                            width,
+                            height
                         )
                         c.classList.add('dust')
                         cs.push(c)
@@ -75,12 +81,18 @@ class particle {
         return canvas
     }
     leave() {
+        const LENGTH = this.particles.length
+        const TOTAL_DURATION = this.TRANSITION_DURATION + this.TRANSITION_DELAY
+        const el = this.el
+
         this.particles.forEach((particle, index) => {
             setTimeout(() => {
                 setStyle(particle, {
-                    transition: `${800 + index * 110}ms ${index *
-                        70}ms cubic-bezier(.91,-0.04,.98,.83)`,
-                    transform: `translate3d(100px,-100px,0) rotate(${chanceInstance.integer(
+                    transition: `${this.TRANSITION_DURATION}ms ${(index /
+                        LENGTH) *
+                        this
+                            .TRANSITION_DELAY}ms cubic-bezier(.91,-0.04,.98,.83)`,
+                    transform: `translate(100px,-100px) rotate(${chanceInstance.integer(
                         { min: -15, max: 15 }
                     )}deg)`,
                     opacity: '0',
@@ -88,6 +100,13 @@ class particle {
                 })
             }, 0)
         })
+
+        el.classList.add('particle-leave-to', 'particle-leave-active')
+        setTimeout(() => {
+            el.classList.remove('particle-leave-to', 'particle-leave-active')
+            el.style.display = 'none'
+            this.clearParticles()
+        }, TOTAL_DURATION)
     }
     clearParticles() {
         this.particles.forEach(particle => {
@@ -98,24 +117,17 @@ class particle {
 export default {
     inserted(el: HTMLElement, { value }: { value: boolean }) {
         el.style.display = value ? '' : 'none'
+        el.dataset.show = 'true'
     },
     async update(el: HTMLElement, { value }: { value: boolean }) {
-        const delay: number = 7000
+        if (el.dataset.show === value.toString()) return
+        el.dataset.show = value.toString()
         if (value) {
             el.style.display = ''
         } else {
             const particleInstance = new particle(el)
             await particleInstance.init()
             particleInstance.leave()
-            el.classList.add('particle-leave-to', 'particle-leave-active')
-            setTimeout(() => {
-                el.classList.remove(
-                    'particle-leave-to',
-                    'particle-leave-active'
-                )
-                el.style.display = 'none'
-                particleInstance.clearParticles()
-            }, delay)
         }
     }
 }
