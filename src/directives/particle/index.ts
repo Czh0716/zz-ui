@@ -3,7 +3,6 @@ import chance from 'chance'
 import './particle.sass'
 const chanceInstance = new chance()
 import worker from './t.worker.js'
-const myWorker = new worker()
 
 function setStyle(el: HTMLElement, style: { [key: string]: any }) {
     for (const key in style) {
@@ -44,12 +43,14 @@ class particle {
                         ctx.createImageData(width, height).data
                     )
                 }
+                const myWorker = new worker()
 
                 myWorker.postMessage({
                     canvasCount: this.canvasCount,
                     imageDataArray: this.imageDataArray,
                     imgData
                 })
+
                 myWorker.addEventListener('message', (e: MessageEvent) => {
                     const imageDataArray = e.data
                     const cs = []
@@ -95,8 +96,7 @@ class particle {
                     transform: `translate(100px,-100px) rotate(${chanceInstance.integer(
                         { min: -15, max: 15 }
                     )}deg)`,
-                    opacity: '0',
-                    filter: 'blur(0.8px)'
+                    opacity: '0'
                 })
             }, 0)
         })
