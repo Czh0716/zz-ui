@@ -1,10 +1,19 @@
 import html2canvas from 'html2canvas'
 import chance from 'chance'
+import SWorker from 'simple-web-worker'
 import './particle.sass'
 const chanceInstance = new chance()
+import worker from './t.worker.js'
+const myWorker = new worker()
+
+function setStyle(el: HTMLElement, style: { [key: string]: any }) {
+    for (const key in style) {
+        el.style[key as any] = style[key]
+    }
+}
 
 class particle {
-    private canvasCount: number = 35
+    private canvasCount: number = 25
     private el: HTMLElement
     private imageDataArray: any[] = []
     private position: DOMRect
@@ -30,48 +39,28 @@ class particle {
                     canvas.width,
                     canvas.height
                 )
-                const pixelArr = imgData.data
-                this.createBlankImageData(imgData)
-
-                for (let i = 0; i < pixelArr.length; i += 4) {
-                    let p = Math.floor((i / pixelArr.length) * this.canvasCount)
-                    let a = this.imageDataArray[this.weightedRandomDistrib(p)]
-                    a[i] = pixelArr[i]
-                    a[i + 1] = pixelArr[i + 1]
-                    a[i + 2] = pixelArr[i + 2]
-                    a[i + 3] = pixelArr[i + 3]
-                }
-
-                for (let i = 0; i < this.canvasCount; i++) {
-                    let c = this.newCanvasFromImageData(
-                        this.imageDataArray[i],
-                        canvas.width,
-                        canvas.height
-                    )
-                    c.classList.add('dust')
-                    document.body.append(c)
-                }
-
-                resolve()
+                myWorker.postMessage({
+                    canvasCount: this.canvasCount,
+                    imageDataArray: this.imageDataArray,
+                    imgData
+                })
+                myWorker.addEventListener('message', (e: MessageEvent) => {
+                    const imageDataArray = e.data
+                    const cs = []
+                    for (let i = 0; i < this.canvasCount; i++) {
+                        let c = this.newCanvasFromImageData(
+                            imageDataArray[i],
+                            canvas.width,
+                            canvas.height
+                        )
+                        c.classList.add('dust')
+                        cs.push(c)
+                    }
+                    document.body.append(...cs)
+                    resolve()
+                })
             })
         })
-    }
-    createBlankImageData(imgData: ImageData) {
-        for (let i = 0; i < this.canvasCount; i++) {
-            let arr = new Uint8ClampedArray(imgData.data)
-            arr = arr.map(() => 0)
-            this.imageDataArray.push(arr)
-        }
-    }
-    weightedRandomDistrib(peak: number) {
-        const canvasCount = this.canvasCount
-        var prob = [],
-            seq = []
-        for (let i = 0; i < canvasCount; i++) {
-            prob.push(Math.pow(canvasCount - Math.abs(peak - i), 3))
-            seq.push(i)
-        }
-        return chanceInstance.weighted(seq, prob)
     }
     newCanvasFromImageData(arr: Uint8ClampedArray, w: number, h: number) {
         const canvas = document.createElement('canvas')
@@ -88,13 +77,15 @@ class particle {
     leave() {
         this.particles.forEach((particle, index) => {
             setTimeout(() => {
-                particle.style.transition = `${800 + index * 110}ms ${index *
-                    70}ms cubic-bezier(.91,-0.04,.98,.83)`
-                particle.style.transform = `translate3d(100px,-100px,0) rotate(${chanceInstance.integer(
-                    { min: -15, max: 15 }
-                )}deg)`
-                particle.style.opacity = '0'
-                particle.style.filter = 'blur(0.8px)'
+                setStyle(particle, {
+                    transition: `${800 + index * 110}ms ${index *
+                        70}ms cubic-bezier(.91,-0.04,.98,.83)`,
+                    transform: `translate3d(100px,-100px,0) rotate(${chanceInstance.integer(
+                        { min: -15, max: 15 }
+                    )}deg)`,
+                    opacity: '0',
+                    filter: 'blur(0.8px)'
+                })
             }, 0)
         })
     }

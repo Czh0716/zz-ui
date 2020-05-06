@@ -3,8 +3,15 @@
         <z-progress-linear color="blue" loading></z-progress-linear>
         <z-progress-circular color="pink" loading></z-progress-circular>
         <z-btn @click="particle = !particle">Test</z-btn>
-        <div style="padding: 10px; background: #f5da55">
+        <div style="padding: 10px;width:600px" v-particle="particle">
             <h4 style="color: #000; ">Hello world!</h4>
+            <p
+                style="color:skyblue"
+            >Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut, non.</p>
+            <p
+                style="color:hotpink"
+            >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Explicabo corporis, eos enim provident consectetur laboriosam beatae, eaque illum in maiores quo ullam commodi assumenda voluptatem qui similique doloremque dolorum eius?</p>
+            <img class="logo" width="200" src="./assets/logo.png" />
         </div>
         <div class="wrap" id="wrap">
             <z-dialog v-model="dialog" persistent max-width="400px">
@@ -41,7 +48,6 @@
                 </z-waterfall-item>
             </z-waterfall-container>-->
         </div>
-        <img v-particle="particle" width="200" src="./assets/logo.png" />
     </div>
 </template>
 
@@ -89,6 +95,10 @@ export default class App extends Vue {
     margin-bottom: 20px;
 }
 
+.logo {
+    display: block;
+    margin: auto;
+}
 body {
 }
 </style>
