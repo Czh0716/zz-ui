@@ -12,7 +12,7 @@
     "chance": "^1.1.4",
     "core-js": "^3.6.4",
     "html2canvas": "^1.0.0-rc.5",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "simple-web-worker": "^1.2.0",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
